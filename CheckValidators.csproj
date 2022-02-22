@@ -12,13 +12,13 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
-		<RepositoryUrl></RepositoryUrl>
+		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
 		<PackageReleaseNotes>Initial release!</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
 		<AssemblyVersion>1.0.13</AssemblyVersion>
 		<FileVersion>1.0.13</FileVersion>
 		<Copyright>Ryan A. Kueter</Copyright>
-		<PackageProjectUrl></PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>Git</RepositoryType>
 		<Product>$(AssemblyName)</Product>
