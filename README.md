@@ -7,7 +7,7 @@ Updated: Febrary, 2022
 
 **Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data. It also provides the ability to write your own validation extensions.  
 
-#### Targets:
+### Targets:
 - .NET 6
 
    
