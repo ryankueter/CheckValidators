@@ -5,7 +5,7 @@ Updated: May, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of Linq expressions. You can also write your own validation extensions and use them in your own project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of LINQ expressions. You can also write your own validation extensions and use them in your own project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -15,7 +15,7 @@ Updated: May, 2022
 
 ## Introduction
 
-Each "Check" contains validation rules that can be chained together using method extension syntax (builder pattern). The **If**, **IfNot**, **AndIf**, **AndIfNot**, **OrIf**, and **OrIfNot** rules allow you to use Linq to validate the different members of the class, including properties, lists, dictionaries, and other complex types. If an exception is thrown, it will aggrigate a list of errors that can be retrieved with **GetErrors()** or the errors can be thrown with **ThrowErrors()**. It also has an **IsValid()** method that returns true if all conditions were met and false if at least one condition failed. 
+Each "Check" contains validation rules that can be chained together using method extension syntax (builder pattern). The **If**, **IfNot**, **AndIf**, **AndIfNot**, **OrIf**, and **OrIfNot** rules allow you to use LINQ to validate the different members of the class, including properties, lists, dictionaries, and other complex types. If an exception is thrown, it will aggrigate a list of errors that can be retrieved with **GetErrors()** or the errors can be thrown with **ThrowErrors()**. It also has an **IsValid()** method that returns true if all conditions were met and false if at least one condition failed. 
 
 ```csharp
 using CheckValidators;
