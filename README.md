@@ -5,7 +5,7 @@ Updated: May, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of LINQ expressions. You can also write your own validation extensions and use them in your own project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of LINQ expressions. You can also write your own validation extensions and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -45,7 +45,7 @@ if (!c.IsValid())
 ###
 ## A Realistic Example
 
-In this example, if the value "MyServiceRequest" is null, no errors will be thrown unless the IfNull rule is applied, and IsValid() will evaluate to false. This example also uses a check statement is used inside another check statement to validate complex items.
+In this example, if the value "MyServiceRequest" is null, no errors will be thrown unless the IfNull rule is applied, and IsValid() will evaluate to false. This example also uses a check statement inside another check statement to validate complex items.
 
 ```csharp
 try
@@ -69,7 +69,7 @@ catch (Exception ex)
 ```   
 #### AndIf, AndIfNot
 
-The **AndIfNot** statement will not execute if any previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for people in the list. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf statements until to define a new If rule.
+The **AndIfNot** statement will not execute if any previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for an empty list of people. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf or AndIfNot statements until it evaluates a new If rule.
 
 #### OrIf, OrIfNot
 
@@ -84,7 +84,7 @@ Errors: 1) An email is invalid., 2) A user has an invalid email., 3) Invalid tim
 ###
 ## Extension Methods
 
-You can create your own custom extension methods anywhere in your project to add custom validators that are specific to your needs. If you choose to use a try/catch block, consider throwing the same error in the catch block when using an IfNot or ElseIfNot rule since they evaluate to false. Avoid throwing the same error in a catch block of an If or ElseIf rule since they evaluate to true. 
+You can create your own custom extension methods anywhere in your project to add custom validators that are specific to your needs. If you choose to use a try/catch block, consider throwing the same error in the catch block when using an IfNot, AndIfNot, or OrIfNot rule since they evaluate to false. Avoid throwing the same error in a catch block of an If, AndIf, or OrIf rule since they evaluate to true. 
 
 ```csharp
 public static partial class CheckValidatorsExtensions
