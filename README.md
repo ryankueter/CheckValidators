@@ -58,7 +58,7 @@ try
         .OrIfNot(p => p.Id > 0, "A user id is invalid.")
         .IfNot(p => p.People.Any(), "The request does not contain any people.")
         .AndIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A user has an invalid email.")
-        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "You have invalid ids.")
+        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "Some user ids are invalid.")
         .If(p => p.TimeStamp == default, "Invalid timestamp.")
         .ThrowErrors();
 }
