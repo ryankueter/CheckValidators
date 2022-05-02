@@ -22,7 +22,7 @@ using CheckValidators;
 
 string? i = null;
 
-var c = new Check<string?>(i)
+var c = new Check<string>(i)
     .IfNull("The string is null.")
     .IfEmptyOrWhitespace("The string is empty.")
     .AndIfNot(s => s.Contains("keyword"), "The string did not contain the keyword.");
