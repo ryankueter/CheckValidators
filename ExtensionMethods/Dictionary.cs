@@ -15,7 +15,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public static Check<Dictionary<TKey, TValue>?> IfEmpty<TKey, TValue>(this Check<Dictionary<TKey, TValue>?> data, string msg = "")
+    public static Check<Dictionary<TKey, TValue>> IfEmpty<TKey, TValue>(this Check<Dictionary<TKey, TValue>> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -36,7 +36,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public static Check<Dictionary<TKey, TValue>?> IfNotEmpty<TKey, TValue>(this Check<Dictionary<TKey, TValue>?> data, string msg = "")
+    public static Check<Dictionary<TKey, TValue>> IfNotEmpty<TKey, TValue>(this Check<Dictionary<TKey, TValue>> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         try

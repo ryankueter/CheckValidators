@@ -16,7 +16,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string?> IfEmptyOrWhitespace(this Check<string?> data, string msg = "")
+    public static Check<string> IfEmptyOrWhitespace(this Check<string> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value.Trim().Length is 0)
@@ -32,7 +32,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string?> IfNotDate(this Check<string?> data, string msg = "")
+    public static Check<string> IfNotDate(this Check<string> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         DateTime d;
@@ -49,7 +49,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string?> IfNotInteger(this Check<string?> data, string msg = "")
+    public static Check<string> IfNotInteger(this Check<string> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         int i;
@@ -66,7 +66,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string?> IfNotEmail(this Check<string?> data, string msg = "")
+    public static Check<string> IfNotEmail(this Check<string> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         var match = new Regex(@"\\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\\Z", RegexOptions.IgnoreCase);
@@ -84,10 +84,10 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string?> IfNotURL(this Check<string?> data, string msg = "")
+    public static Check<string> IfNotURL(this Check<string> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
-        var match = new Regex(@"^(gn|http|https|file|mailto|ftp)(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\;\(\)\?\,\'\/\\\+&=:%\$#_]*)?", RegexOptions.IgnoreCase);
+        var match = new Regex(@"^(http|https|file|mailto|ftp)(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\;\(\)\?\,\'\/\\\+&=:%\$#_]*)?", RegexOptions.IgnoreCase);
         if (match.IsMatch(data.Value) is false)
         {
             data.ThrowError(msg, "String is not a URL.");
@@ -107,7 +107,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="numNumbers">Minimum number of numeric characters.</param>
     /// <param name="numSpecial">Minimum number of special characters.</param>
     /// <returns>True if the password is sufficiently complex.</returns>
-    public static Check<string?> IfNotPassword(this Check<string?> data, string msg = "", int minLength = 8, int numUpper = 2, int numLower = 2, int numNumbers = 2, int numSpecial = 2)
+    public static Check<string> IfNotPassword(this Check<string> data, string msg = "", int minLength = 8, int numUpper = 2, int numLower = 2, int numNumbers = 2, int numSpecial = 2)
     {
         if (data.InvalidModel()) { return data; }
 

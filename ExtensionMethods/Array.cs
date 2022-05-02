@@ -14,7 +14,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<T?[]> IfEmpty<T>(this Check<T?[]> data, string msg = "")
+    public static Check<T[]> IfEmpty<T>(this Check<T[]> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -35,7 +35,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<T?[]> IfNotEmpty<T>(this Check<T?[]> data, string msg = "")
+    public static Check<T[]> IfNotEmpty<T>(this Check<T[]> data, string msg = "")
     {
         if (data.InvalidModel()) { return data; }
         try

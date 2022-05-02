@@ -13,19 +13,19 @@ public class Check<T> : IDisposable
     private bool _isValid;
     private bool _ifValid;
 
-    internal readonly T? Value;
-    internal readonly string Type = typeof(T?).Name;
+    internal readonly T Value;
+    internal readonly string Type = typeof(T).Name;
 
     private IList<string> _messages;
-    private readonly IList<T?> _context;
+    private readonly IList<T> _context;
 
-    public Check(T? t)
+    public Check(T t)
     {
         _isValid = true;
         _ifValid = true;
         if (t is null) { IsNull = true; _isValid = false; }
         Value = t;
-        _context = new List<T?>() { Value };
+        _context = new List<T>() { Value };
         _messages = new List<string>();
     }
 
@@ -34,7 +34,7 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T?> IfNull(string msg = "")
+    public Check<T> IfNull(string msg = "")
     {
         _ifValid = true;
         if (IsNull)
@@ -49,7 +49,7 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T?> IfNotNull(string msg = "")
+    public Check<T> IfNotNull(string msg = "")
     {
         _ifValid = true;
         if (!IsNull)
@@ -65,7 +65,7 @@ public class Check<T> : IDisposable
     /// <param name="condition">Condition being evaluated.</param>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T?> If(Func<T?, bool> condition, string msg = "")
+    public Check<T> If(Func<T, bool> condition, string msg = "")
     {
         if (InvalidModel()) { return this; }
         try
@@ -89,7 +89,7 @@ public class Check<T> : IDisposable
     /// <param name="condition">Condition being evaluated.</param>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T?> IfNot(Func<T?, bool> condition, string msg = "")
+    public Check<T> IfNot(Func<T, bool> condition, string msg = "")
     {
         if (InvalidModel()) { return this; }
         try
@@ -107,13 +107,114 @@ public class Check<T> : IDisposable
         }
         return this;
     }
+
+    /// <summary>
+    /// AndIf only executes when the preceding If statement is valid.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public Check<T> AndIf(Func<T, bool> condition, string msg = "")
+    {
+        if (InvalidIf()) { return this; }
+        try
+        {
+            // Check if condition is true
+            if (_context.Where(condition).Any())
+            {
+                ThrowError(msg, $"The expression evaluates to true.");
+            }
+        }
+        catch
+        {
+            // Condition was not true
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// AndIfNot only executes when the preceding If statement is valid.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public Check<T> AndIfNot(Func<T, bool> condition, string msg = "")
+    {
+        if (InvalidIf()) { return this; }
+        try
+        {
+            // Check if condition is false
+            if (!_context.Where(condition).Any())
+            {
+                ThrowError(msg, $"The expression evaluates to false.");
+            }
+        }
+        catch
+        {
+            // Condition was false
+            ThrowError(msg, $"The expression evaluates to false.");
+        }
+        return this;
+    }
+
+
+    /// <summary>
+    /// OrIf only executes when the preceding If statement is invalid.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public Check<T> OrIf(Func<T, bool> condition, string msg = "")
+    {
+        if (!InvalidIf()) { return this; }
+        try
+        {
+            // Check if condition is true
+            if (_context.Where(condition).Any())
+            {
+                ThrowError(msg, $"The expression evaluates to true.");
+            }
+        }
+        catch
+        {
+            // Condition was not true
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// OrIfNot only executes when the preceding If statement is invalid.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public Check<T> OrIfNot(Func<T, bool> condition, string msg = "")
+    {
+        if (!InvalidIf()) { return this; }
+        try
+        {
+            // Check if condition is false
+            if (!_context.Where(condition).Any())
+            {
+                ThrowError(msg, $"The expression evaluates to false.");
+            }
+        }
+        catch
+        {
+            // Condition was false
+            ThrowError(msg, $"The expression evaluates to false.");
+        }
+        return this;
+    }
+
     /// <summary>
     /// ElseIf only executes when the preceding If statement is valid.
     /// </summary>
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T?> ElseIf(Func<T?, bool> condition, string msg = "")
+    [Obsolete("ElseIf is deprecated, please use AndIf instead.")]
+    public Check<T> ElseIf(Func<T, bool> condition, string msg = "")
     {
         if (InvalidIf()) { return this; }
         try
@@ -137,7 +238,8 @@ public class Check<T> : IDisposable
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T?> ElseIfNot(Func<T?, bool> condition, string msg = "")
+    [Obsolete("ElseIfNot is deprecated, please use AndIfNot instead.")]
+    public Check<T> ElseIfNot(Func<T, bool> condition, string msg = "")
     {
         if (InvalidIf()) { return this; }
         try
@@ -264,7 +366,7 @@ public class Check<T> : IDisposable
     /// Clears the evaluation state
     /// </summary>
     /// <returns></returns>
-    public Check<T?> Clear()
+    public Check<T> Clear()
     {
         _isValid = true;
         _ifValid = true;

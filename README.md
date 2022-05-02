@@ -1,11 +1,11 @@
 # Check Validators (.NET)
 
 Author: Ryan Kueter  
-Updated: Febrary, 2022
+Updated: May, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data. It also provides the ability to write your own validation extensions.  
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of Linq expressions. You can also write your own validation extensions and use them in your own project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -15,7 +15,7 @@ Updated: Febrary, 2022
 
 ## Introduction
 
-Each "Check" contains validation rules that can be chained together using method extension syntax. The **If**, **IfNot**, **ElseIf**, and **ElseIfNot** rules allow you to use Linq to validate the different members of the class, including properties, lists, dictionaries, and other complex types. If an exception is thrown, it will aggrigate a list of errors that can be retrieved with **GetErrors()** or the errors can be thrown with **ThrowErrors()**. It also has an **IsValid()** method that returns true if all conditions were met and false if at least one condition failed. 
+Each "Check" contains validation rules that can be chained together using method extension syntax (builder pattern). The **If**, **IfNot**, **AndIf**, **AndIfNot**, **OrIf**, and **OrIfNot** rules allow you to use Linq to validate the different members of the class, including properties, lists, dictionaries, and other complex types. If an exception is thrown, it will aggrigate a list of errors that can be retrieved with **GetErrors()** or the errors can be thrown with **ThrowErrors()**. It also has an **IsValid()** method that returns true if all conditions were met and false if at least one condition failed. 
 
 ```csharp
 using CheckValidators;
@@ -25,7 +25,7 @@ string? i = null;
 var c = new Check<string?>(i)
     .IfNull("The string is null.")
     .IfEmptyOrWhitespace("The string is empty.")
-    .ElseIfNot(s => s.Contains("keyword"), "The string did not contain the keyword.");
+    .AndIfNot(s => s.Contains("keyword"), "The string did not contain the keyword.");
 
 // Getting errors
 if (c.HasErrors())
@@ -45,7 +45,7 @@ if (!c.IsValid())
 ###
 ## A Realistic Example
 
-In this example, if the People list is null, the fourth condition will produce an error. And the following **ElseIfNot** statement will not execute if any previous **If** rule produced an error. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. If a value is null, no errors will be thrown unless the IfNull rule is applied, and IsValid() will always evaluate to false. Check statements can be used inside Check statements to validate complex items.
+In this example, if the value "MyServiceRequest" is null, no errors will be thrown unless the IfNull rule is applied, and IsValid() will evaluate to false. This example also uses a check statement is used inside another check statement to validate complex items.
 
 ```csharp
 try
@@ -53,9 +53,12 @@ try
     new Check<MyServiceRequest>(request)
         .IfNull("The service request cannot be null.")
         .If(p => p.User == null, "The user is invalid.")
-        .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "The email is invalid.")
+        .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "An email is invalid.")
+        .OrIf(p => p.Id == 0, "A user id is invalid.")
+        .OrIfNot(p => p.Id > 0, "A user id is invalid.")
         .IfNot(p => p.People.Any(), "The request does not contain any people.")
-        .ElseIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "User has an invalid email.")
+        .AndIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A user has an invalid email.")
+        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "You have invalid ids.")
         .If(p => p.TimeStamp == default, "Invalid timestamp.")
         .ThrowErrors();
 }
@@ -63,12 +66,20 @@ catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
-```  
+```   
+#### AndIf, AndIfNot
+
+The **AndIfNot** statement will not execute if any previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for people in the list. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf statements until to define a new If rule.
+
+#### OrIf, OrIfNot
+
+**OrIf** and **OrIfNot** are the opposite of **AndIf** and **AndIfNot** and only execute if a previous **If** rule fails validation.
+
 ###
 #### Output:
 
 ```console
-Errors: 1) The email is invalid., 2) User has an invalid email., 3) Invalid timestamp. (Parameter 'MyServiceRequest')
+Errors: 1) An email is invalid., 2) A user has an invalid email., 3) Invalid timestamp. (Parameter 'MyServiceRequest')
 ```
 ###
 ## Extension Methods
@@ -96,4 +107,4 @@ public static partial class CheckValidatorsExtensions
 ###
 ## Contributions
 
-If you would like to contribute to this project, please contribute on the Github project page.
+This project is being developed for free by me, Ryan Kueter, in my spare time. So, if you would like to contribute, please submit your ideas on the Github project page.

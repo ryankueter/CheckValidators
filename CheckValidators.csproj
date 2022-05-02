@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.14</Version>
+		<Version>1.0.15</Version>
 		<Authors>Ryan A. Kueter</Authors>
 		<Company>Ryan A. Kueter</Company>
 		<Description>A simple, elegant, and powerful .NET validation library that allows you to add your own validation extensions.</Description>
@@ -13,10 +13,10 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>Fixed a link in the documentation following the initial release.</PackageReleaseNotes>
+		<PackageReleaseNotes>This release deprecates ElseIf and ElseIfNot and replaces them with AndIf and AndIfNot. This replacement should not introduce breaking changes and will still only execute if a previous If or AndIf rule passes validation. It also includes OrIf and OrIfNot rules, which perform the opposite function of AndIf and AndIfNot and only executes if a previous If or AndIf rule fails validation.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
-		<AssemblyVersion>1.0.14</AssemblyVersion>
-		<FileVersion>1.0.14</FileVersion>
+		<AssemblyVersion>1.0.15</AssemblyVersion>
+		<FileVersion>1.0.15</FileVersion>
 		<Copyright>Ryan A. Kueter</Copyright>
 		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
