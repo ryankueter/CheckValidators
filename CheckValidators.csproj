@@ -13,7 +13,7 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>This release deprecates ElseIf and ElseIfNot and replaces them with AndIf and AndIfNot. This replacement should not introduce breaking changes and will still only execute if a previous If or AndIf rule passes validation. It also includes OrIf and OrIfNot rules, which perform the opposite function of AndIf and AndIfNot and only executes if a previous If or AndIf rule fails validation.</PackageReleaseNotes>
+		<PackageReleaseNotes>This release deprecates ElseIf and ElseIfNot and replaces them with AndIf and AndIfNot. This replacement should not introduce breaking changes and will still only execute if a previous If rule passes validation. It also includes OrIf and OrIfNot rules, which perform the opposite function of AndIf and AndIfNot and only execute if a previous If rule fails validation.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
 		<AssemblyVersion>1.0.15</AssemblyVersion>
 		<FileVersion>1.0.15</FileVersion>

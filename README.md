@@ -66,7 +66,8 @@ catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
-```   
+``` 
+###
 #### AndIf, AndIfNot
 
 The **AndIfNot** statement will not execute if any previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for an empty list of people. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf or AndIfNot statements until it evaluates a new If rule.
@@ -104,6 +105,18 @@ public static partial class CheckValidatorsExtensions
     }
 }
 ```
+###
+## Supported Datatypes (include but are not limited to)
+- Custom Datatypes (classes)
+- Array
+- Dictionary
+- Double
+- Float
+- Int
+- List
+- Long
+- String
+
 ###
 ## Contributions
 
