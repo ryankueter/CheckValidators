@@ -39,7 +39,14 @@ if (c.HasErrors())
 // Throwing errors
 if (!c.IsValid())
 {
-    c.ThrowErrors();
+    try
+    {
+        c.ThrowErrors();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
 }
 ```
 ###
