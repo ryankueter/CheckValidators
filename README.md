@@ -61,11 +61,11 @@ try
         .IfNull("The service request cannot be null.")
         .If(p => p.User is null, "The user is invalid.")
         .IfNot(p => p.People.Any(), "The request does not contain any people.")
-        // AndIf and AndIfNot only execute when a previous If or IfNot validation succeeds.
+        // AndIf and AndIfNot only execute when the previous If or IfNot validation succeeds.
         .AndIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A user has an invalid email.")
         .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "One or more ids are invalid.")
         .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "An email is invalid.")
-        // OrIf and OrIfNot only execute when a previous If or IfNot validation fails.
+        // OrIf and OrIfNot only execute when the previous If or IfNot validation fails.
         .OrIf(p => p.Id is 0, "The user id is invalid.")
         .OrIfNot(p => p.Id > 0, "The user id is invalid.")
         .If(p => p.TimeStamp == default, "Invalid timestamp.")
@@ -79,7 +79,7 @@ catch (Exception ex)
 ###
 #### AndIf, AndIfNot
 
-The **AndIfNot** statement will not execute if any previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for an empty list of people. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf or AndIfNot statements until it evaluates a new If rule.
+The **AndIf** and **AndIfNot** statements will not execute if the previous **If** rule was invalid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. The example above checks for an empty list of people. If the list contains people, it will continue to check their email addresses. If the People list is empty, it will skip all following AndIf or AndIfNot statements until it evaluates a new If rule.
 
 #### OrIf, OrIfNot
 
