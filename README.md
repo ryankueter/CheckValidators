@@ -89,7 +89,7 @@ The **AndIfNot** statement will not execute if any previous **If** rule was inva
 #### Output:
 
 ```console
-Errors: 1) An email is invalid., 2) A user has an invalid email., 3) Invalid timestamp. (Parameter 'request [MyServiceRequest]')
+Errors: 1) A user has an invalid email., 2) An email is invalid., 3) Invalid timestamp. (Parameter 'request [MyServiceRequest]')
 ```
 ###
 ## Extension Methods
