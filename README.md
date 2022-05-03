@@ -116,7 +116,7 @@ public static partial class CheckValidatorsExtensions
 ```
 ###
 ## Supported Datatypes (include but are not limited to)
-- Custom Datatypes (classes)
+- Custom Datatypes
 - Array
 - Dictionary
 - Double
