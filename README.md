@@ -60,10 +60,12 @@ try
     new Check<MyServiceRequest>(request)
         .IfNull("The service request cannot be null.")
         .If(p => p.User == null, "The user is invalid.")
-        .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "An email is invalid.")
+        .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "An email is invalid.") 
+        // OrIf and OrIfNot only execute when a previous If or IfNot validation fails.
         .OrIf(p => p.Id == 0, "The user id is invalid.")
         .OrIfNot(p => p.Id > 0, "The user id is invalid.")
         .IfNot(p => p.People.Any(), "The request does not contain any people.")
+        // AndIf and AndIfNot only execute when a previous If or IfNot validation succeeds.
         .AndIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A user has an invalid email.")
         .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "One or more user ids are invalid.")
         .If(p => p.TimeStamp == default, "Invalid timestamp.")
