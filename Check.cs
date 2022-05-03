@@ -4,6 +4,7 @@
  * file that was distributed with this source code.
  */
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace CheckValidators;
 
@@ -14,17 +15,18 @@ public class Check<T> : IDisposable
     private bool _ifValid;
 
     internal readonly T Value;
-    internal readonly string Type = typeof(T).Name;
+    internal readonly string Type;
 
     private IList<string> _messages;
     private readonly IList<T> _context;
 
-    public Check(T t)
+    public Check(T t, [CallerArgumentExpression("t")] string param = "")
     {
         _isValid = true;
         _ifValid = true;
         if (t is null) { IsNull = true; _isValid = false; }
         Value = t;
+        Type = $"{param} [{typeof(T).Name}]";
         _context = new List<T>() { Value };
         _messages = new List<string>();
     }

@@ -1,11 +1,11 @@
-# Check Validators (.NET)
+ Check Validators (.NET)
 
 Author: Ryan Kueter  
 Updated: May, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data using the power of LINQ expressions. You can also write your own validation extensions and use them in your project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides a simple, elegant, and powerful way to validate and guard your data. You can write your own validation extensions and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -61,11 +61,11 @@ try
         .IfNull("The service request cannot be null.")
         .If(p => p.User == null, "The user is invalid.")
         .If(p => new Check<string>(p.Email).IfNull().IfNotEmail().HasErrors(), "An email is invalid.")
-        .OrIf(p => p.Id == 0, "A user id is invalid.")
-        .OrIfNot(p => p.Id > 0, "A user id is invalid.")
+        .OrIf(p => p.Id == 0, "The user id is invalid.")
+        .OrIfNot(p => p.Id > 0, "The user id is invalid.")
         .IfNot(p => p.People.Any(), "The request does not contain any people.")
         .AndIf(p => p.People.Where(x => new Check<string>(x.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A user has an invalid email.")
-        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "Some user ids are invalid.")
+        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(), "One or more user ids are invalid.")
         .If(p => p.TimeStamp == default, "Invalid timestamp.")
         .ThrowErrors();
 }
@@ -87,7 +87,7 @@ The **AndIfNot** statement will not execute if any previous **If** rule was inva
 #### Output:
 
 ```console
-Errors: 1) An email is invalid., 2) A user has an invalid email., 3) Invalid timestamp. (Parameter 'MyServiceRequest')
+Errors: 1) An email is invalid., 2) A user has an invalid email., 3) Invalid timestamp. (Parameter 'request [MyServiceRequest]')
 ```
 ###
 ## Extension Methods
