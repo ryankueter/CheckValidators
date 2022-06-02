@@ -59,38 +59,6 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
-    /// Checks if the value is null or empty
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="msg">Custom error message</param>
-    /// <returns></returns>
-    public static Check<string> IfNullOrEmpty(this Check<string> data)
-    {
-        if (data.InvalidModel()) { return data; }
-        if (string.IsNullOrEmpty(data.Value))
-        {
-            data.ThrowError("String is null or empty.");
-        }
-        return data;
-    }
-
-    /// <summary>
-    /// Checks if the value is null or whitespace
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="msg">Custom error message</param>
-    /// <returns></returns>
-    public static Check<string> IfNullOrWhitespace(this Check<string> data)
-    {
-        if (data.InvalidModel()) { return data; }
-        if (string.IsNullOrWhiteSpace(data.Value))
-        {
-            data.ThrowError("String is null or whitespace.");
-        }
-        return data;
-    }
-
-    /// <summary>
     /// Checks if the string is equal to another string
     /// </summary>
     /// <param name="data"></param>
@@ -180,7 +148,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string> IfLengthNotEquals(this Check<string> data, int length)
+    public static Check<string> IfNotLengthEquals(this Check<string> data, int length)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length != length)

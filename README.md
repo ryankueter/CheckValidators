@@ -59,13 +59,14 @@ try
         .If(request => request.Email == null, "The email address was null!")
         .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors())
         .If(request => request.TimeStamp == default, "The timestamp was not set!")
-        .If(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp.")
+        .AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp.")
         .If(request => request.Id == 0)
         .If(request => request.People is null || request.People.Count == 0)
-        .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any())
+        .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A person in the list of people did not have a valid email address.")
         .AndIfNot(p => p.People.Where(x => x.Id > 0).Any())
         .If(request => new Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture).HasErrors())
-        .If(request => new Check<string>(request.User).IfNotMatches("^letterstomatch", System.Text.RegularExpressions.RegexOptions.None).HasErrors())
+        .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors())
+        .IfNot(request => request.Count > 20 && request.Count < 300)
         .ThrowErrors();
 }
 catch (Exception ex)
@@ -77,7 +78,7 @@ catch (Exception ex)
 #### Output:
 
 ```console
-Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) An error occured with the timestamp., 4) A person in the list of people did not have a valid email address., 5) If(request => new Check<string>(request.User).IfNotMatches("^letterstomatch", System.Text.RegularExpressions.RegexOptions.None).HasErrors()). (Parameter 'request [MyServiceRequest]')
+Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A person in the list of people did not have a valid email address., 4) IfNot(request => request.Count > 20 && request.Count < 300). (Parameter 'request [MyServiceRequest]')
 ```
 ###
 ## Validations
@@ -254,12 +255,6 @@ IfWhitespace()
 IfEmptyOrWhitespace()
 // Error: String is empty or whitespace.
 
-IfNullOrEmpty()
-// Error: String is null or empty.
-
-IfNullOrWhitespace()
-// Error: String is null or whitespace.  
-
 IfEquals("String")
 IfEquals("String", StringComparison.InvariantCulture)
 // Error: String should not be equal to '{compareString}' [StringComparison: '{compareType}'].
@@ -277,7 +272,7 @@ IfLengthLessThan(5)
 IfLengthEquals(5)
 // Error: String length should not equal {length} characters.
 
-IfLengthNotEquals(5)
+IfNotLengthEquals(5)
 // Error: String length should equal {length} characters.
 
 IfEndsWith("abc")
