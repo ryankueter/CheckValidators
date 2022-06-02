@@ -20,13 +20,13 @@ public class Check<T> : IDisposable
     private IList<string> _messages;
     private readonly IList<T> _context;
 
-    public Check(T t, [CallerArgumentExpression("t")] string param = "")
+    public Check(T t, [CallerArgumentExpression("t")] string expression = "")
     {
         _isValid = true;
         _ifValid = true;
         if (t is null) { IsNull = true; _isValid = false; }
         Value = t;
-        Type = $"{param} [{typeof(T).Name}]";
+        Type = $"{expression} [{typeof(T).Name}]";
         _context = new List<T>() { Value };
         _messages = new List<string>();
     }
@@ -36,12 +36,12 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T> IfNull(string msg = "")
+    public Check<T> IfNull()
     {
         _ifValid = true;
         if (IsNull)
         {
-            ThrowError(msg, "The value is null.");
+            ThrowError("The value is null.");
         }
         return this;
     }
@@ -51,12 +51,12 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T> IfNotNull(string msg = "")
+    public Check<T> IfNotNull()
     {
         _ifValid = true;
         if (!IsNull)
         {
-            ThrowError(msg, "The value is not null.");
+            ThrowError("The value is not null.");
         }
         return this;
     }
@@ -67,7 +67,7 @@ public class Check<T> : IDisposable
     /// <param name="condition">Condition being evaluated.</param>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T> If(Func<T, bool> condition, string msg = "")
+    public Check<T> If(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (InvalidModel()) { return this; }
         try
@@ -75,7 +75,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to true.");
+                ThrowError($"If({expression}).", msg);
             }
         }
         catch
@@ -91,7 +91,7 @@ public class Check<T> : IDisposable
     /// <param name="condition">Condition being evaluated.</param>
     /// <param name="msg">Custom error message.</param>
     /// <returns></returns>
-    public Check<T> IfNot(Func<T, bool> condition, string msg = "")
+    public Check<T> IfNot(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (InvalidModel()) { return this; }
         try
@@ -99,13 +99,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to false.");
+                ThrowError($"IfNot({expression}).", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError(msg, $"The expression evaluates to false.");
+            ThrowError($"IfNot({expression}).", msg);
         }
         return this;
     }
@@ -116,7 +116,7 @@ public class Check<T> : IDisposable
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T> AndIf(Func<T, bool> condition, string msg = "")
+    public Check<T> AndIf(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (InvalidIf()) { return this; }
         try
@@ -124,7 +124,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to true.");
+                ThrowError($"AndIf({expression}).", msg);
             }
         }
         catch
@@ -140,7 +140,7 @@ public class Check<T> : IDisposable
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T> AndIfNot(Func<T, bool> condition, string msg = "")
+    public Check<T> AndIfNot(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (InvalidIf()) { return this; }
         try
@@ -148,13 +148,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to false.");
+                ThrowError($"AndIfNot({expression}).", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError(msg, $"The expression evaluates to false.");
+            ThrowError($"AndIfNot({expression}).", msg);
         }
         return this;
     }
@@ -166,7 +166,7 @@ public class Check<T> : IDisposable
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T> OrIf(Func<T, bool> condition, string msg = "")
+    public Check<T> OrIf(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (!InvalidIf()) { return this; }
         try
@@ -174,7 +174,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to true.");
+                ThrowError($"OrIf({expression}).", msg);
             }
         }
         catch
@@ -190,7 +190,7 @@ public class Check<T> : IDisposable
     /// <param name="condition"></param>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public Check<T> OrIfNot(Func<T, bool> condition, string msg = "")
+    public Check<T> OrIfNot(Func<T, bool> condition, string msg = "", [CallerArgumentExpression("condition")] string expression = "")
     {
         if (!InvalidIf()) { return this; }
         try
@@ -198,64 +198,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError(msg, $"The expression evaluates to false.");
+                ThrowError($"OrIfNot({expression}).", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError(msg, $"The expression evaluates to false.");
-        }
-        return this;
-    }
-
-    /// <summary>
-    /// ElseIf only executes when the preceding If statement is valid.
-    /// </summary>
-    /// <param name="condition"></param>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    [Obsolete("ElseIf is deprecated, please use AndIf instead.")]
-    public Check<T> ElseIf(Func<T, bool> condition, string msg = "")
-    {
-        if (InvalidIf()) { return this; }
-        try
-        {
-            // Check if condition is true
-            if (_context.Where(condition).Any())
-            {
-                ThrowError(msg, $"The expression evaluates to true.");
-            }
-        }
-        catch
-        {
-            // Condition was not true
-        }
-        return this;
-    }
-
-    /// <summary>
-    /// ElseIfNot only executes when the preceding If statement is valid.
-    /// </summary>
-    /// <param name="condition"></param>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    [Obsolete("ElseIfNot is deprecated, please use AndIfNot instead.")]
-    public Check<T> ElseIfNot(Func<T, bool> condition, string msg = "")
-    {
-        if (InvalidIf()) { return this; }
-        try
-        {
-            // Check if condition is false
-            if (!_context.Where(condition).Any())
-            {
-                ThrowError(msg, $"The expression evaluates to false.");
-            }
-        }
-        catch
-        {
-            // Condition was false
-            ThrowError(msg, $"The expression evaluates to false.");
+            ThrowError($"OrIfNot({expression}).", msg);
         }
         return this;
     }
@@ -334,9 +283,8 @@ public class Check<T> : IDisposable
     /// <summary>
     /// Adds an error to the list of errors.
     /// </summary>
-    /// <param name="customMsg"></param>
     /// <param name="defaultMsg"></param>
-    internal void ThrowError(string customMsg, string defaultMsg)
+    internal void ThrowError(string defaultMsg, string customMsg = "")
     {
         _isValid = false;
         _ifValid = false;

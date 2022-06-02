@@ -13,12 +13,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNegative(this Check<long> data)
+    public static Check<long?> IfNegative(this Check<long?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError("The long is negative.");
+            data.ThrowError("The number is negative.");
         }
         return data;
     }
@@ -29,12 +29,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfPositive(this Check<long> data)
+    public static Check<long?> IfPositive(this Check<long?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError("The long is positive.");
+            data.ThrowError("The number is positive.");
         }
         return data;
     }
@@ -45,12 +45,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfZero(this Check<long> data)
+    public static Check<long?> IfZero(this Check<long?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError("The long is zero.");
+            data.ThrowError("The number is zero.");
         }
         return data;
     }
@@ -61,12 +61,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotZero(this Check<long> data)
+    public static Check<long?> IfNotZero(this Check<long?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError("The long is not zero.");
+            data.ThrowError("The number is not zero.");
         }
         return data;
     }
@@ -78,12 +78,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfGreaterThan(this Check<long> data, int value)
+    public static Check<long?> IfGreaterThan(this Check<long?> data, int value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The long is greater than {value}.");
+            data.ThrowError($"The number is greater than {value}.");
         }
         return data;
     }
@@ -95,12 +95,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfLessThan(this Check<long> data, int value)
+    public static Check<long?> IfLessThan(this Check<long?> data, int value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The long is less than {value}.");
+            data.ThrowError($"The number is less than {value}.");
         }
         return data;
     }
@@ -112,12 +112,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfEquals(this Check<long> data, int value)
+    public static Check<long?> IfEquals(this Check<long?> data, int value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The long should not be {value}.");
+            data.ThrowError($"The number should not be {value}.");
         }
         return data;
     }
@@ -129,12 +129,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotEquals(this Check<long> data, float value)
+    public static Check<long?> IfNotEquals(this Check<long?> data, float value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The long should be {value}.");
+            data.ThrowError($"The number should be {value}.");
         }
         return data;
     }

@@ -13,27 +13,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNegative(this Check<float> data, string msg = "")
+    public static Check<float> IfNegative(this Check<float> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError(msg, "The number is negative.");
-        }
-        return data;
-    }
-    /// <summary>
-    /// Check if the number is negative
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="msg">Custom error message</param>
-    /// <returns></returns>
-    public static Check<float?> IfNegative(this Check<float?> data, string msg = "")
-    {
-        if (data.InvalidModel()) { return data; }
-        if (data.Value < 0)
-        {
-            data.ThrowError(msg, "The number is negative.");
+            data.ThrowError("The float is negative.");
         }
         return data;
     }
@@ -44,28 +29,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfPositive(this Check<float> data, string msg = "")
+    public static Check<float> IfPositive(this Check<float> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError(msg, "The number is positive.");
-        }
-        return data;
-    }
-
-    /// <summary>
-    /// Check if the number is positive
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="msg">Custom error message</param>
-    /// <returns></returns>
-    public static Check<float?> IfPositive(this Check<float?> data, string msg = "")
-    {
-        if (data.InvalidModel()) { return data; }
-        if (data.Value > 0)
-        {
-            data.ThrowError(msg, "The number is positive.");
+            data.ThrowError("The float is positive.");
         }
         return data;
     }
@@ -76,28 +45,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfZero(this Check<float> data, string msg = "")
+    public static Check<float> IfZero(this Check<float> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError(msg, "The number is zero.");
-        }
-        return data;
-    }
-
-    /// <summary>
-    /// Check if the number is zero
-    /// </summary>
-    /// <param name="data"></param>
-    /// <param name="msg">Custom error message</param>
-    /// <returns></returns>
-    public static Check<float?> IfZero(this Check<float?> data, string msg = "")
-    {
-        if (data.InvalidModel()) { return data; }
-        if (data.Value is 0)
-        {
-            data.ThrowError(msg, "The number is zero.");
+            data.ThrowError("The float is zero.");
         }
         return data;
     }
@@ -108,28 +61,80 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNotZero(this Check<float> data, string msg = "")
+    public static Check<float> IfNotZero(this Check<float> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError(msg, "The number is not zero.");
+            data.ThrowError("The float is not zero.");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is not zero
+    /// Check if the number is greater than a specified value
     /// </summary>
     /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float?> IfNotZero(this Check<float?> data, string msg = "")
+    public static Check<float> IfGreaterThan(this Check<float> data, float value)
     {
         if (data.InvalidModel()) { return data; }
-        if (data.Value is not 0)
+        if (data.Value > value)
         {
-            data.ThrowError(msg, "The number is not zero.");
+            data.ThrowError($"The float is greater than {value}.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number is greater than a specified value
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<float> IfLessThan(this Check<float> data, float value)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value > value)
+        {
+            data.ThrowError($"The float is less than {value}.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number equals a specified value
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<float> IfEquals(this Check<float> data, float value)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value == value)
+        {
+            data.ThrowError($"The float should not be {value}.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number is does not equal a specified value
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<float> IfNotEquals(this Check<float> data, float value)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value == value)
+        {
+            data.ThrowError($"The float should be {value}.");
         }
         return data;
     }

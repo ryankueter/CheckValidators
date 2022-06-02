@@ -9,19 +9,329 @@ using System.Text.RegularExpressions;
 namespace CheckValidators;
 
 public static partial class CheckValidatorsExtensions
-{
+{    
+    /// <summary>
+    /// Checks if the value is empty
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfEmpty(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Length is 0)
+        {
+            data.ThrowError("String is empty.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is whitespace
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfWhitespace(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.All(char.IsWhiteSpace))
+        {
+            data.ThrowError("String is whitepace.");
+        }
+        return data;
+    }
+
     /// <summary>
     /// Checks if the value is empty or whitespace
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string> IfEmptyOrWhitespace(this Check<string> data, string msg = "")
+    public static Check<string> IfEmptyOrWhitespace(this Check<string> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value.Trim().Length is 0)
         {
-            data.ThrowError(msg, "String is empty or whitespace.");
+            data.ThrowError("String is empty or whitespace.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is null or empty
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNullOrEmpty(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (string.IsNullOrEmpty(data.Value))
+        {
+            data.ThrowError("String is null or empty.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is null or whitespace
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNullOrWhitespace(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (string.IsNullOrWhiteSpace(data.Value))
+        {
+            data.ThrowError("String is null or whitespace.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the string is equal to another string
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="compareString">The string you want to compare</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfEquals(this Check<string> data, string compareString, StringComparison compareType = StringComparison.OrdinalIgnoreCase)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (string.Equals(data.Value, compareString, compareType))
+        {
+            data.ThrowError($"String should not be equal to '{compareString}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the string is not equal to another string
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="compareString">The string you want to compare</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfNotEquals(this Check<string> data, string compareString, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (!string.Equals(data.Value, compareString, compareType))
+        {
+            data.ThrowError($"String should be equal to '{compareString}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the string is longer than the specified number of characters.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfLengthGreaterThan(this Check<string> data, int length)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Length > length)
+        {
+            data.ThrowError($"String has exceeded the character limit of {length} characters.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the string is shorter than the specified number of characters.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfLengthLessThan(this Check<string> data, int length)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Length < length)
+        {
+            data.ThrowError($"String does not meet the minimum character length of {length} characters.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the length of a string equals the parameter specified.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfLengthEquals(this Check<string> data, int length)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Length == length)
+        {
+            data.ThrowError($"String length should not equal {length} characters.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the length of a string equals the parameter specified.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfLengthNotEquals(this Check<string> data, int length)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Length != length)
+        {
+            data.ThrowError($"String length should equal {length} characters.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string ends with the specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="ending">The characters you are checking for.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfEndsWith(this Check<string> data, string ending, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.EndsWith(ending, compareType))
+        {
+            data.ThrowError($"String should not end with '{ending}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string does not end with the specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="ending">The characters you are checking for.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfNotEndsWith(this Check<string> data, string ending, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (!data.Value.EndsWith(ending, compareType))
+        {
+            data.ThrowError($"String does not end with '{ending}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string starts with the specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="beginning">The characters you are checking for.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfStartsWith(this Check<string> data, string beginning, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.StartsWith(beginning, compareType))
+        {
+            data.ThrowError($"String should not start with '{beginning}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string does not start with the specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="beginning">The characters you are checking for.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfNotStartsWith(this Check<string> data, string beginning, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (!data.Value.StartsWith(beginning, compareType))
+        {
+            data.ThrowError($"String does not start with '{beginning}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string contains specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="compare">The string you are comparing.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfContains(this Check<string> data, string compare, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value.Contains(compare, compareType))
+        {
+            data.ThrowError($"String should not contain '{compare}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string does not contain specified characters
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="compare">The string you are comparing.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="compareType">A parameter to supply the StringComparison options.</param>
+    /// <returns></returns>
+    public static Check<string> IfNotContains(this Check<string> data, string compare, StringComparison compareType = StringComparison.InvariantCulture)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (!data.Value.Contains(compare, compareType))
+        {
+            data.ThrowError($"String should contain '{compare}' [StringComparison: '{compareType}'].");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string matches a regular expressions pattern
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="pattern">The regular expressions pattern.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="options">The regular expressions options.</param>
+    /// <returns></returns>
+    public static Check<string> IfMatches(this Check<string> data, string pattern, RegexOptions options = RegexOptions.IgnoreCase)
+    {
+        if (data.InvalidModel()) { return data; }
+        var match = new Regex(pattern, options);
+        if (match.IsMatch(data.Value))
+        {
+            data.ThrowError($"String should not match the regular expressions pattern '{pattern}'.");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if a string matches a regular expressions pattern
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="pattern">The regular expressions pattern.</param>
+    /// <param name="msg">Custom error message</param>
+    /// <param name="options">The regular expressions options.</param>
+    /// <returns></returns>
+    public static Check<string> IfNotMatches(this Check<string> data, string pattern, RegexOptions options = RegexOptions.IgnoreCase)
+    {
+        if (data.InvalidModel()) { return data; }
+        var match = new Regex(pattern, options);
+        if (!match.IsMatch(data.Value))
+        {
+            data.ThrowError($"String should match the regular expressions pattern '{pattern}'.");
         }
         return data;
     }
@@ -32,13 +342,13 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string> IfNotDate(this Check<string> data, string msg = "")
+    public static Check<string> IfNotDate(this Check<string> data)
     {
         if (data.InvalidModel()) { return data; }
         DateTime d;
-        if (DateTime.TryParse(data.Value, out d) is false)
+        if (!DateTime.TryParse(data.Value, out d))
         {
-            data.ThrowError(msg, "String is not a date.");
+            data.ThrowError($"String {data.Value} is not a date.");
         }
         return data;
     }
@@ -49,13 +359,13 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<string> IfNotInteger(this Check<string> data, string msg = "")
+    public static Check<string> IfNotInteger(this Check<string> data)
     {
         if (data.InvalidModel()) { return data; }
         int i;
-        if (Int32.TryParse(data.Value, out i) is false)
+        if (!Int32.TryParse(data.Value, out i))
         {
-            data.ThrowError(msg, "String is not an integer.");
+            data.ThrowError($"String {data.Value} is not an integer.");
         }
         return data;
     }
@@ -65,32 +375,45 @@ public static partial class CheckValidatorsExtensions
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
+    /// <param name="pattern">A custom regular expression pattern for validating the email.</param>
+    /// <param name="options">Regular expressions options.</param>
     /// <returns></returns>
-    public static Check<string> IfNotEmail(this Check<string> data, string msg = "")
+    public static Check<string> IfNotEmail(this Check<string> data, string pattern = "", RegexOptions options = RegexOptions.IgnoreCase)
     {
         if (data.InvalidModel()) { return data; }
-        var match = new Regex(@"\\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\\Z", RegexOptions.IgnoreCase);
-        if (match.IsMatch(data.Value) is false)
+
+        // Regular Expressions: http://emailregex.com
+        if (pattern is "")
+            pattern = @"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+        
+        var match = new Regex(pattern, options);
+        if (!match.IsMatch(data.Value))
         {
-            data.ThrowError(msg, "String is not an email address.");
+            data.ThrowError($"String '{data.Value}' is not an email address.");
         }
         return data;
     }
-
 
     /// <summary>
     /// Checks if the value is not a url
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
+    /// <param name="pattern">A custom regular expression pattern for validating the email.</param>
+    /// <param name="options">Regular expressions options.</param>
     /// <returns></returns>
-    public static Check<string> IfNotURL(this Check<string> data, string msg = "")
+    public static Check<string> IfNotURL(this Check<string> data, string pattern = "", RegexOptions options = RegexOptions.IgnoreCase)
     {
         if (data.InvalidModel()) { return data; }
-        var match = new Regex(@"^(http|https|file|mailto|ftp)(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\;\(\)\?\,\'\/\\\+&=:%\$#_]*)?", RegexOptions.IgnoreCase);
-        if (match.IsMatch(data.Value) is false)
+
+        // Regular Expressions: http://emailregex.com
+        if (pattern is "")
+            pattern = @"^(http|https|file|mailto|ftp|ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
+
+        var match = new Regex(pattern, options);
+        if (!match.IsMatch(data.Value))
         {
-            data.ThrowError(msg, "String is not a URL.");
+            data.ThrowError($"String {data.Value} is not a URL.");
         }
         return data;
     }
@@ -107,7 +430,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="numNumbers">Minimum number of numeric characters.</param>
     /// <param name="numSpecial">Minimum number of special characters.</param>
     /// <returns>True if the password is sufficiently complex.</returns>
-    public static Check<string> IfNotPassword(this Check<string> data, string msg = "", int minLength = 8, int numUpper = 2, int numLower = 2, int numNumbers = 2, int numSpecial = 2)
+    public static Check<string> IfNotValidPassword(this Check<string> data, 
+        int minLength = 8, 
+        int numUpper = 2, 
+        int numLower = 2, 
+        int numNumbers = 2, 
+        int numSpecial = 2)
     {
         if (data.InvalidModel()) { return data; }
 
@@ -152,7 +480,7 @@ public static partial class CheckValidatorsExtensions
         }
 
         if (_valid.Equals(false))
-            data.ThrowError(msg, msgs.ToString());
+            data.ThrowError(msgs.ToString());
 
         return data;
     }
