@@ -36,7 +36,7 @@ catch (Exception ex)
 #### Output:
 
 ```console
-Errors: 1) The datetime format is not Utc., 2) The date was not yesterday! (Parameter 'datetime [DateTime]')
+Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
 ```  
 ###
 #### A Realistic Example
