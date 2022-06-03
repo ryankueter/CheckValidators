@@ -18,7 +18,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError("The number is negative.");
+            data.ThrowError("The number is negative");
         }
         return data;
     }
@@ -34,7 +34,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError("The number is positive.");
+            data.ThrowError("The number is positive");
         }
         return data;
     }
@@ -50,7 +50,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError("The number is zero.");
+            data.ThrowError("The number is zero");
         }
         return data;
     }
@@ -66,7 +66,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError("The number is not zero.");
+            data.ThrowError("The number is not zero");
         }
         return data;
     }
@@ -83,7 +83,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The number is greater than {value}.");
+            data.ThrowError($"The number is greater than {value}");
         }
         return data;
     }
@@ -100,7 +100,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The number is less than {value}.");
+            data.ThrowError($"The number is less than {value}");
         }
         return data;
     }
@@ -117,7 +117,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The number should not be {value}.");
+            data.ThrowError($"The number should not be {value}");
         }
         return data;
     }
@@ -134,7 +134,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The number should be {value}.");
+            data.ThrowError($"The number should be {value}");
         }
         return data;
     }

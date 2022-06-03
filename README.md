@@ -50,7 +50,7 @@ In the following examples, the following checks are being used inside of user-de
 * Check<string>(request.User).IfNotMatches("^letterstomatch", System.Text.RegularExpressions.RegexOptions.None)
 
 ```csharp
-// Validating a service request
+//Validating a service request
 try
 {
     var request = new MyServiceRequest();
@@ -59,10 +59,10 @@ try
         .If(request => request.Email == null, "The email address was null!")
         .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors())
         .If(request => request.TimeStamp == default, "The timestamp was not set!")
-        .AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp.")
+        .AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp")
         .If(request => request.Id == 0)
         .If(request => request.People is null || request.People.Count == 0)
-        .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A person in the list of people did not have a valid email address.")
+        .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A person in the list of people did not have a valid email address")
         .AndIfNot(p => p.People.Where(x => x.Id > 0).Any())
         .If(request => new Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture).HasErrors())
         .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors())
@@ -78,7 +78,7 @@ catch (Exception ex)
 #### Output:
 
 ```console
-Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A person in the list of people did not have a valid email address., 4) IfNot(request => request.Count > 20 && request.Count < 300). (Parameter 'request [MyServiceRequest]')
+Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A person in the list of people did not have a valid email address, 4) IfNot(request => request.Count > 20 && request.Count < 300), in Program.cs:line 24. (Parameter 'request <MyServiceRequest>')
 ```
 ###
 ## Validations
@@ -126,7 +126,7 @@ IsValid() returns a boolean true or false depending on whether all the rules pas
 
 ##### ThrowErrors()
 
-ThrowErrors() will throw all the errors in a nicely formatted error message.
+ThrowErrors() will throw all the errors in a formatted error message.
 
 ```csharp
 // Throwing errors
@@ -144,7 +144,7 @@ if (!c.IsValid())
 ```
 The expression above, for example, will throw the following errors:
 ```console
-Errors: 1) String length should not equal 10 characters., 2) The string does not contain the keyword. (Parameter 'data [String]')
+Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
 ```
 
 ### User-Defined Validation Rules
@@ -159,25 +159,25 @@ If and IfNot conditions allow you to use LINQ to query objects and lists in the 
 ```csharp
 If(user => user.User is null)
 If(user => user.User is null, "Custom error message.")
-// Default Error: If({expression}).
+// Default Error: If({expression})
 
 IfNot(user => user.User is null)
 IfNot(user => user.User is null, "Custom error message.")
-// Default Error: IfNot({expression}).
+// Default Error: IfNot({expression})
 ```  
 ###
 #### AndIf and AndIfNot
 
-AndIf and AndIfNot are similar to If and IfNot conditions, except that they only execute when the previous If or IfNot condition is valid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. For example, if a list of people is null, you don’t want to check that list for other validation errors because they will all fail. So, in that event, all of the following AndIf and AndIfNot statements are skipped. This can be reset by defining a new If or IfNot validation rule.
+AndIf and AndIfNot are similar to If and IfNot conditions, except that they only execute when the previous If or IfNot condition is valid. This provides better performance, and prevents unnecessary code execution and unnecessary errors. An example may include checking a child value of a value that was previously determined to be null. For example, if a list of people is null, you don't want to check that list for other validation errors because they will all fail. So, in that event, all of the following AndIf and AndIfNot statements are skipped. This can be reset by defining a new If or IfNot validation rule.
 
 ```csharp
 AndIf(user => user.User is null)
 AndIf(user => user.User is null, "Custom error message.")
-// Default Error: AndIf({expression}).
+// Default Error: AndIf({expression})
 
 AndIfNot(user => user.User is null)
 AndIfNot(user => user.User is null, "Custom error message.")
-// Default Error: AndIfNot({expression}).
+// Default Error: AndIfNot({expression})
 ```
 ###
 #### OrIf and OrIfNot
@@ -187,11 +187,11 @@ OrIf and OrIfNot are the opposite of AndIf and AndIfNot and only execute if a pr
 ```csharp
 OrIf(user => user.User is null)
 OrIf(user => user.User is null, "Custom error message.")
-// Default Error: OrIf({expression}).
+// Default Error: OrIf({expression})
 
 OrIfNot(user => user.User is null)
 OrIfNot(user => user.User is null, "Custom error message.")
-// Default Error: OrIfNot({expression}).
+// Default Error: OrIfNot({expression})
 ```  
 ###  
 ### Built-in Validations
@@ -203,28 +203,28 @@ Check validators also include a large number of built-in validation rules. Each 
 If you want to throw an error that the object you are checking is null, then you need to include IfNull(). If the object you are checking is null, none of the other validations will be checked. So, this is a good one to include.
 ```csharp
 IfNull()
-// Error: The value is null.
+// Error: The value is null
 
 IfNotNull()  
-// Error: The value is not null.
+// Error: The value is not null
 ```
 
 ### String
 
 ```csharp
 IfNotDate()
-// Error: String {data.Value} is not a date.
+// Error: String {data.Value} is not a date
 
 IfNotInteger()
-// Error: String {data.Value} is not an integer.
+// Error: String {data.Value} is not an integer
 
 IfNotEmail()
 IfNotEmail(RegexPattern, System.Text.RegularExpressions.RegexOptions.None)
-// Error: String '{data.Value}' is not an email address.
+// Error: String '{data.Value}' is not an email address
 
 IfNotURL()
 IfNotURL(RegexPattern, System.Text.RegularExpressions.RegexOptions.None)
-// Error: String {data.Value} is not a URL.
+// Error: String {data.Value} is not a URL
 
 IfNotValidPassword()
 IfNotValidPassword(8, 2, 2, 2, 2)
@@ -240,290 +240,290 @@ A minimum of {numSpecial} special characters.
 
 IfMatches(@"\b[R]\w+")
 IfMatches(@"\b[R]\w+", System.Text.RegularExpressions.RegexOptions.None)
-// Error: String should not match the regular expressions pattern '{pattern}'.
+// Error: String should not match the regular expressions pattern '{pattern}'
 
 IfNotMatches(@"\b[R]\w+")
 IfNotMatches(@"\b[R]\w+", System.Text.RegularExpressions.RegexOptions.None)
-// Error: String should match the regular expressions pattern '{pattern}'.
+// Error: String should match the regular expressions pattern '{pattern}'
 
 IfEmpty()
-// Error: String is empty.
+// Error: String is empty
 
 IfWhitespace()
-// Error: String is whitepace. 
+// Error: String is whitepace
 
 IfEmptyOrWhitespace()
-// Error: String is empty or whitespace.
+// Error: String is empty or whitespace
 
 IfEquals("String")
 IfEquals("String", StringComparison.InvariantCulture)
-// Error: String should not be equal to '{compareString}' [StringComparison: '{compareType}'].
+// Error: String should not be equal to '{compareString}' [StringComparison: '{compareType}']
 
 IfNotEquals("String")
 IfNotEquals("String", StringComparison.InvariantCulture)
-// Error: String should be equal to '{compareString}' [StringComparison: '{compareType}'].
+// Error: String should be equal to '{compareString}' [StringComparison: '{compareType}']
 
 IfLengthGreaterThan(5)
-// Error: String has exceeded the character limit of {length} characters.
+// Error: String has exceeded the character limit of {length} characters
 
 IfLengthLessThan(5)
-// Error: String does not meet the minimum character length of {length} characters.
+// Error: String does not meet the minimum character length of {length} characters
 
 IfLengthEquals(5)
-// Error: String length should not equal {length} characters.
+// Error: String length should not equal {length} characters
 
 IfNotLengthEquals(5)
-// Error: String length should equal {length} characters.
+// Error: String length should equal {length} characters
 
 IfEndsWith("abc")
 IfEndsWith("abc", StringComparison.InvariantCulture)
-// Error: String should not end with '{ending}' [StringComparison: '{compareType}'].
+// Error: String should not end with '{ending}' [StringComparison: '{compareType}']
 
 IfNotEndsWith("abc")
 IfNotEndsWith("abc", StringComparison.InvariantCulture)
-// Error: String does not end with '{ending}' [StringComparison: '{compareType}'].
+// Error: String does not end with '{ending}' [StringComparison: '{compareType}']
 
 IfStartsWith("abc")
 IfStartsWith("abc", StringComparison.InvariantCulture)
-// Error: String should not start with '{beginning}' [StringComparison: '{compareType}'].
+// Error: String should not start with '{beginning}' [StringComparison: '{compareType}']
 
 IfNotStartsWith("abc")
 IfNotStartsWith("abc", StringComparison.InvariantCulture)
-// Error: String does not start with '{beginning}' [StringComparison: '{compareType}'].
+// Error: String does not start with '{beginning}' [StringComparison: '{compareType}']
 
 IfContains("abc")
 IfContains("abc", StringComparison.InvariantCulture)
-// Error: String should not contain '{compare}' [StringComparison: '{compareType}'].
+// Error: String should not contain '{compare}' [StringComparison: '{compareType}']
 
 IfNotContains("abc")
 IfNotContains("abc", StringComparison.InvariantCulture)
-// Error: String should contain '{compare}' [StringComparison: '{compareType}'].
+// Error: String should contain '{compare}' [StringComparison: '{compareType}']
 ```  
 
 ### Arrays
 ```csharp
 IfEmpty()
-// Error: The array is empty.
+// Error: The array is empty
 
 IfNotEmpty()
-// Error: The array is not empty.
+// Error: The array is not empty
 
 IfCount(5)
-// Error: The item count should not be {count}.
+// Error: The item count should not be {count}
 
 IfNotCount(5)
-// Error: The item count is not {count}.
+// Error: The item count is not {count}
 
 IfCountGreaterThan(5)
-// Error: The item count is greater than {count}.
+// Error: The item count is greater than {count}
 
 IfCountLessThan(5)
-// Error: The item count is less than {count}.
+// Error: The item count is less than {count}
 ```
 ### DateTime
 ```csharp
 IfUtcTime()
-// Error: The datetime format is Utc.
+// Error: The datetime format is Utc
 
 IfNotUtcTime()
-// Error: The datetime format is not Utc.
+// Error: The datetime format is not Utc
 
 IfLocalTime()
-// Error: The datetime format is local.
+// Error: The datetime format is local
 
 IfNotLocalTime()
-// Error: The datetime format is not local.
+// Error: The datetime format is not local
 
 IfUnspecifiedTimeFormat()
-// Error: The datetime format is unspecified.
+// Error: The datetime format is unspecified
 
 IfDefault()
-// Error: The datetime is set to the default value.
+// Error: The datetime is set to the default value
 
 IfNotDefault()
-// Error: The datetime is not set to the default value.
+// Error: The datetime is not set to the default value
 ```
 ### Dictionary
 ```csharp
 IfEmpty()
-// Error: Dictionary is empty.
+// Error: Dictionary is empty
 
 IfNotEmpty()
-// Error: The Dictionary is not empty.
+// Error: The Dictionary is not empty
 
 IfCount(5)
-// Error: The item count should not be {count}.
+// Error: The item count should not be {count}
 
 IfNotCount(5)
-// Error: The item count is not {count}.
+// Error: The item count is not {count}
 
 IfCountGreaterThan(5)
-// Error: The item count is greater than {count}.
+// Error: The item count is greater than {count}
 
 IfCountLessThan(5)
-// Error: The item count is less than {count}.
+// Error: The item count is less than {count}
 ```
 ### Double
 ```csharp
 IfNegative()
-// Error: The double is negative.
+// Error: The double is negative
 
 IfPositive()
-// Error: The double is positive.
+// Error: The double is positive
 
 IfZero()
-// Error: The double is zero.
+// Error: The double is zero
 
 IfNotZero()
-// Error: The double is not zero.
+// Error: The double is not zero
 
-IfGreaterThan()
-// Error: The double is greater than {value}.
+IfGreaterThan(5)
+// Error: The double is greater than {value}
 
-IfLessThan()
-// Error: The double is less than {value}.
+IfLessThan(5)
+// Error: The double is less than {value}
 
-IfEquals()
-// Error: The double should not be {value}.
+IfEquals(5)
+// Error: The double should not be {value}
 
-IfNotEquals()
-// Error: The double should be {value}.
+IfNotEquals(5)
+// Error: The double should be {value}
 ```
 ### Float
 ```csharp
 IfNegative()
-// Error: The float is negative.
+// Error: The float is negative
 
 IfPositive()
-// Error: The float is positive.
+// Error: The float is positive
 
 IfZero()
-// Error: The float is zero.
+// Error: The float is zero
 
 IfNotZero()
-// Error: The float is not zero.
+// Error: The float is not zero
 
-IfGreaterThan()
-// Error: The float is greater than {value}.
+IfGreaterThan(5)
+// Error: The float is greater than {value}
 
-IfLessThan()
-// Error: The float is less than {value}.
+IfLessThan(5)
+// Error: The float is less than {value}
 
-IfEquals()
-// Error: The float should not be {value}.
+IfEquals(5)
+// Error: The float should not be {value}
 
-IfNotEquals()
-// Error: The float should be {value}.
+IfNotEquals(5)
+// Error: The float should be {value}
 ```
 ### Int
 ```csharp
 IfNegative()
-// Error: The integer is negative.
+// Error: The integer is negative
 
 IfPositive()
-// Error: The integer is positive.
+// Error: The integer is positive
 
 IfZero()
-// Error: The integer is zero.
+// Error: The integer is zero
 
 IfNotZero()
-// Error: The integer is not zero.
+// Error: The integer is not zero
 
-IfGreaterThan()
-// Error: The integer is greater than {value}.
+IfGreaterThan(5)
+// Error: The integer is greater than {value}
 
-IfLessThan()
-// Error: The integer is less than {value}.
+IfLessThan(5)
+// Error: The integer is less than {value}
 
-IfEquals()
-// Error: The integer should not be {value}.
+IfEquals(5)
+// Error: The integer should not be {value}
 
-IfNotEquals()
-// Error: The integer should be {value}.
+IfNotEquals(5)
+// Error: The integer should be {value}
 ```
 ### List
 ```csharp
 IfEmpty()
-// Error: The list is empty.
+// Error: The list is empty
 
 IfNotEmpty()
-// Error: The list is not empty.
+// Error: The list is not empty
 
 IfCount(5)
-// Error: The item count should not be {count}.
+// Error: The item count should not be {count}
 
 IfNotCount(5)
-// Error: The item count is not {count}.
+// Error: The item count is not {count}
 
 IfCountGreaterThan(5)
-// Error: The item count is greater than {count}.
+// Error: The item count is greater than {count}
 
 IfCountLessThan(5)
-// Error: The item count is less than {count}.
+// Error: The item count is less than {count}
 ```
 ### Long
 ```csharp
 IfNegative()
-// Error: The long is negative.
+// Error: The long is negative
 
 IfPositive()
-// Error: The long is positive.
+// Error: The long is positive
 
 IfZero()
-// Error: The long is zero.
+// Error: The long is zero
 
 IfNotZero()
-// Error: The long is not zero.
+// Error: The long is not zero
 
-IfGreaterThan()
-// Error: The long is greater than {value}.
+IfGreaterThan(5)
+// Error: The long is greater than {value}
 
-IfLessThan()
-// Error: The long is less than {value}.
+IfLessThan(5)
+// Error: The long is less than {value}
 
-IfEquals()
-// Error: The long should not be {value}.
+IfEquals(5)
+// Error: The long should not be {value}
 
-IfNotEquals()
-// Error: The long should be {value}.
+IfNotEquals(5)
+// Error: The long should be {value}
 ```
 ### Uri
 ```csharp
 IfScheme()
-// Error: Uri scheme should not be '{scheme}'.
+// Error: Uri scheme should not be '{scheme}'
 
 IfNotScheme()
-// Error: Uri scheme is not '{scheme}'.
+// Error: Uri scheme is not '{scheme}'
 
 IfAbsoluteUri()
-// Error: Uri is absolute, consider changing it to relative.
+// Error: Uri is absolute, consider changing it to relative
 
 IfRelativeUri()
-// Error: Uri is relative, consider changing it to absolute.
+// Error: Uri is relative, consider changing it to absolute
 
 IfUriPort(80)
-// Error: Uri port should not be {port}.
+// Error: Uri port should not be {port}
 
 IfNotUriPort(80)
-// Error: Uri port should be {port}.
+// Error: Uri port should be {port}
 
 IfFile()
-// Error: Uri is a file path.
+// Error: Uri is a file path
 
 IfNotFile()
-// Error: Uri is not a file.
+// Error: Uri is not a file
 
 IfUnc()
-// Error: Uri is a UNC path.
+// Error: Uri is a UNC path
 
 IfNotUnc()
-// Error: Uri is not a UNC path.
+// Error: Uri is not a UNC path
 
 IfLoopback()
-// Error: Uri is the loopback address.
+// Error: Uri is the loopback address
 
 IfNotLoopback()
-// Error: Uri is not the loopback address.
+// Error: Uri is not the loopback address
 ```
 
 ###

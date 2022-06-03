@@ -19,16 +19,25 @@ public class Check<T> : IDisposable
 
     private IList<string> _messages;
     private readonly IList<T> _context;
+    /// <summary>
+    /// Gets the file and line number
+    /// on which the exception occurs
+    /// </summary>
+    private readonly string _caller;
 
-    public Check(T t, [CallerArgumentExpression("t")] string expression = "")
+    public Check(T t, 
+        [CallerArgumentExpression("t")] string expression = "",
+        [CallerFilePath] string file = "",
+        [CallerLineNumber] int line = 0)
     {
         _isValid = true;
         _ifValid = true;
         if (t is null) { IsNull = true; _isValid = false; }
         Value = t;
-        Type = $"{expression} [{typeof(T).Name}]";
+        Type = $"{expression} <{typeof(T).Name}>";
         _context = new List<T>() { Value };
         _messages = new List<string>();
+        _caller = $"in {Path.GetFileName(file)}:line {line}";
     }
 
     /// <summary>
@@ -41,7 +50,7 @@ public class Check<T> : IDisposable
         _ifValid = true;
         if (IsNull)
         {
-            ThrowError("The value is null.");
+            ThrowError("The value is null");
         }
         return this;
     }
@@ -56,7 +65,7 @@ public class Check<T> : IDisposable
         _ifValid = true;
         if (!IsNull)
         {
-            ThrowError("The value is not null.");
+            ThrowError("The value is not null");
         }
         return this;
     }
@@ -75,7 +84,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError($"If({expression}).", msg);
+                ThrowError($"If({expression})", msg);
             }
         }
         catch
@@ -99,13 +108,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError($"IfNot({expression}).", msg);
+                ThrowError($"IfNot({expression})", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError($"IfNot({expression}).", msg);
+            ThrowError($"IfNot({expression})", msg);
         }
         return this;
     }
@@ -124,7 +133,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError($"AndIf({expression}).", msg);
+                ThrowError($"AndIf({expression})", msg);
             }
         }
         catch
@@ -148,13 +157,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError($"AndIfNot({expression}).", msg);
+                ThrowError($"AndIfNot({expression})", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError($"AndIfNot({expression}).", msg);
+            ThrowError($"AndIfNot({expression})", msg);
         }
         return this;
     }
@@ -174,7 +183,7 @@ public class Check<T> : IDisposable
             // Check if condition is true
             if (_context.Where(condition).Any())
             {
-                ThrowError($"OrIf({expression}).", msg);
+                ThrowError($"OrIf({expression})", msg);
             }
         }
         catch
@@ -198,13 +207,13 @@ public class Check<T> : IDisposable
             // Check if condition is false
             if (!_context.Where(condition).Any())
             {
-                ThrowError($"OrIfNot({expression}).", msg);
+                ThrowError($"OrIfNot({expression})", msg);
             }
         }
         catch
         {
             // Condition was false
-            ThrowError($"OrIfNot({expression}).", msg);
+            ThrowError($"OrIfNot({expression})", msg);
         }
         return this;
     }
@@ -222,7 +231,7 @@ public class Check<T> : IDisposable
     /// Throws the errors as an ArgumentException
     /// </summary>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowErrors()
+    public void ThrowErrors(bool IncludeLineNumber = false)
     {
         if (_messages.Count > 0)
         {
@@ -231,12 +240,12 @@ public class Check<T> : IDisposable
             {
                 if (i is 0)
                 {
-                    sb.Append($"Errors: {i + 1}) {_messages[i]}");
+                    sb.Append($"{i + 1}) {_messages[i]}");
                     continue;
                 }
                 sb.Append($", {i + 1}) {_messages[i]}");
             }
-            throw new ArgumentException(sb.ToString(), Type);
+            throw new ArgumentException($"Errors: {sb.ToString()}, {_caller}.", Type);
         }
     }
 
@@ -244,10 +253,10 @@ public class Check<T> : IDisposable
     /// Throw only the first error.
     /// </summary>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowFirstError()
+    public void ThrowFirstError(bool IncludeLineNumber = false)
     {
         if (_messages.Count > 0)
-            throw new ArgumentException($"Errors: {_messages.First()}", Type);
+            throw new ArgumentException($"Errors: {_messages.First()}, {_caller}.", Type);
     }
 
     /// <summary>

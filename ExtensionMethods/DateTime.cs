@@ -18,7 +18,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Kind == DateTimeKind.Utc)
         {
-            data.ThrowError("The datetime format is Utc.");
+            data.ThrowError("The datetime format is Utc");
         }
         return data;
     }
@@ -34,7 +34,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Kind != DateTimeKind.Utc)
         {
-            data.ThrowError("The datetime format is not Utc.");
+            data.ThrowError("The datetime format is not Utc");
         }
         return data;
     }
@@ -50,7 +50,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Kind == DateTimeKind.Local)
         {
-            data.ThrowError("The datetime format is local.");
+            data.ThrowError("The datetime format is local");
         }
         return data;
     }
@@ -66,7 +66,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Kind != DateTimeKind.Local)
         {
-            data.ThrowError("The datetime format is not local.");
+            data.ThrowError("The datetime format is not local");
         }
         return data;
     }
@@ -82,7 +82,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Kind == DateTimeKind.Unspecified)
         {
-            data.ThrowError("The datetime format is unspecified.");
+            data.ThrowError("The datetime format is unspecified");
         }
         return data;
     }
@@ -98,7 +98,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == default)
         {
-            data.ThrowError("The datetime is set to the default value.");
+            data.ThrowError("The datetime is set to the default value");
         }
         return data;
     }
@@ -114,7 +114,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value != default)
         {
-            data.ThrowError("The datetime is not set to the default value.");
+            data.ThrowError("The datetime is not set to the default value");
         }
         return data;
     }

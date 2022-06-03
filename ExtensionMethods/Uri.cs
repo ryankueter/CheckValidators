@@ -19,7 +19,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (string.Equals(data.Value.Scheme, scheme, StringComparison.OrdinalIgnoreCase))
         {
-            data.ThrowError($"Uri scheme should not be '{scheme}'.");
+            data.ThrowError($"Uri scheme should not be '{scheme}'");
         }
         return data;
     }
@@ -36,7 +36,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (!string.Equals(data.Value.Scheme, scheme, StringComparison.OrdinalIgnoreCase))
         {
-            data.ThrowError($"Uri scheme is not '{scheme}'.");
+            data.ThrowError($"Uri scheme is not '{scheme}'");
         }
         return data;
     }
@@ -52,7 +52,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.IsAbsoluteUri)
         {
-            data.ThrowError($"Uri is absolute, consider changing it to relative.");
+            data.ThrowError($"Uri is absolute, consider changing it to relative");
         }
         return data;
     }
@@ -68,7 +68,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (!data.Value.IsAbsoluteUri)
         {
-            data.ThrowError($"Uri is relative, consider changing it to absolute.");
+            data.ThrowError($"Uri is relative, consider changing it to absolute");
         }
         return data;
     }
@@ -85,7 +85,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Port == port)
         {
-            data.ThrowError($"Uri port should not be {port}.");
+            data.ThrowError($"Uri port should not be {port}");
         }
         return data;
     }
@@ -102,7 +102,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Port != port)
         {
-            data.ThrowError($"Uri port should be {port}.");
+            data.ThrowError($"Uri port should be {port}");
         }
         return data;
     }
@@ -119,7 +119,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.IsFile)
         {
-            data.ThrowError($"Uri is a file path.");
+            data.ThrowError($"Uri is a file path");
         }
         return data;
     }
@@ -136,7 +136,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (!data.Value.IsFile)
         {
-            data.ThrowError($"Uri is not a file.");
+            data.ThrowError($"Uri is not a file");
         }
         return data;
     }
@@ -152,7 +152,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.IsUnc)
         {
-            data.ThrowError($"Uri is a UNC path.");
+            data.ThrowError($"Uri is a UNC path");
         }
         return data;
     }
@@ -168,7 +168,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (!data.Value.IsUnc)
         {
-            data.ThrowError($"Uri is not a UNC path.");
+            data.ThrowError($"Uri is not a UNC path");
         }
         return data;
     }
@@ -184,7 +184,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.IsLoopback)
         {
-            data.ThrowError($"Uri is the loopback address.");
+            data.ThrowError($"Uri is the loopback address");
         }
         return data;
     }
@@ -200,7 +200,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (!data.Value.IsLoopback)
         {
-            data.ThrowError($"Uri is not the loopback address.");
+            data.ThrowError($"Uri is not the loopback address");
         }
         return data;
     }

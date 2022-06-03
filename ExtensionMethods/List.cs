@@ -21,7 +21,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (!data.Value.Any())
             {
-                data.ThrowError("The list is empty.");
+                data.ThrowError("The list is empty");
             }
         }
         catch { }
@@ -42,7 +42,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Any())
             {
-                data.ThrowError("The list is empty.");
+                data.ThrowError("The list is empty");
             }
         }
         catch { }
@@ -65,7 +65,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Count() == count)
             {
-                data.ThrowError($"The item count should not be {count}.");
+                data.ThrowError($"The item count should not be {count}");
             }
         }
         catch { }
@@ -87,7 +87,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Count() != count)
             {
-                data.ThrowError($"The item count is not {count}.");
+                data.ThrowError($"The item count is not {count}");
             }
         }
         catch { }
@@ -109,7 +109,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Count() > count)
             {
-                data.ThrowError($"The item count is greater than {count}.");
+                data.ThrowError($"The item count is greater than {count}");
             }
         }
         catch { }
@@ -131,7 +131,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Count() < count)
             {
-                data.ThrowError($"The item count is less than {count}.");
+                data.ThrowError($"The item count is less than {count}");
             }
         }
         catch { }
