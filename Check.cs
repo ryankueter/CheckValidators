@@ -230,8 +230,9 @@ public class Check<T> : IDisposable
     /// <summary>
     /// Throws the errors as an ArgumentException
     /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowErrors(bool IncludeLineNumber = false)
+    public void ThrowErrors(bool Verbose = true)
     {
         if (_messages.Count > 0)
         {
@@ -245,18 +246,28 @@ public class Check<T> : IDisposable
                 }
                 sb.Append($", {i + 1}) {_messages[i]}");
             }
-            throw new ArgumentException($"Errors: {sb.ToString()}, {_caller}.", Type);
+
+            if (Verbose)
+                throw new ArgumentException($"Errors: {sb.ToString()}, {_caller}.", Type);
+            else
+                throw new ArgumentException($"Errors: {sb.ToString()}.");
         }
     }
 
     /// <summary>
     /// Throw only the first error.
     /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowFirstError(bool IncludeLineNumber = false)
+    public void ThrowFirstError(bool Verbose = true)
     {
         if (_messages.Count > 0)
-            throw new ArgumentException($"Errors: {_messages.First()}, {_caller}.", Type);
+        {
+            if (Verbose == true)
+                throw new ArgumentException($"Errors: {_messages.First()}, {_caller}.", Type);
+            else
+                throw new ArgumentException($"Errors: {_messages.First()}.");
+        }
     }
 
     /// <summary>

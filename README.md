@@ -126,7 +126,7 @@ IsValid() returns a boolean true or false depending on whether all the rules pas
 
 ##### ThrowErrors()
 
-ThrowErrors() will throw all the errors in a formatted error message.
+ThrowErrors() will throw all the errors in a formatted error message. The default setting for errors is verbose, which displays the file name, line number, and parameter. But if you want a simpler error for display purposes, you can switch it off by supplying a false parameter: ThrowErrors(false).
 
 ```csharp
 // Throwing errors
