@@ -42,7 +42,7 @@ public static partial class CheckValidatorsExtensions
         {
             if (data.Value.Any())
             {
-                data.ThrowError("The list is empty");
+                data.ThrowError("The list is not empty");
             }
         }
         catch { }
