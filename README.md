@@ -5,7 +5,7 @@ Updated: June, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. You can write your own validation extensions and use them in your project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to over 100 built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -39,6 +39,11 @@ catch (Exception ex)
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
 ```  
 ###
+Or you can turn off verbose logging by using ThrowErrors(false):
+```console
+Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
+```  
+###
 #### A Realistic Example
 
 One of the features that makes this library so power is not just the ability to use LINQ to validate class members and collections, but you can also nest Check validators inside of those validation rules.
@@ -56,8 +61,14 @@ try
     var request = new MyServiceRequest();
     new Check<MyServiceRequest>(request)
         .IfNull()
+        /*
+         * Check if the email is valid.
+         */
         .If(request => request.Email == null, "The email address was null!")
         .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors())
+        /*
+         * Check if the timestamp is valid
+         */
         .If(request => request.TimeStamp == default, "The timestamp was not set!")
         .AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp")
         .If(request => request.Id == 0)
@@ -80,6 +91,7 @@ catch (Exception ex)
 ```console
 Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A person in the list of people did not have a valid email address, 4) IfNot(request => request.Count > 20 && request.Count < 300), in Program.cs:line 24. (Parameter 'request <MyServiceRequest>')
 ```
+
 ###
 ## Validations
 
@@ -388,6 +400,52 @@ IfEquals(5)
 
 IfNotEquals(5)
 // Error: The double should be {value}
+```
+### TimeOnly
+```csharp
+IfDefault()
+// Error: The timeonly is set to the default value of {value}
+
+IfNotDefault()
+// Error: The timeonly '{value}' is not set to the default value
+
+IfMinValue()
+// Error: The timeonly is set to the minimum value of {value}
+
+IfNotMinValue()
+// Error: The timeonly '{value}' is not set to the minimum value of {TimeOnly.MinValue}
+
+IfMaxValue()
+// Error: The timeonly is set to the maximum value of {value}
+
+IfNotMaxValue()
+// Error: The timeonly '{value}' is not set to the maximum value of {TimeOnly.MaxValue}
+
+IfBetween()
+// Error: The timeonly is between '{startTime}' and '{endTime}'
+
+IfNotBetween()
+// Error: The timeonly is not between '{startTime}' and '{endTime}'
+```
+### DateOnly
+```csharp
+IfDefault()
+// Error: The dateonly is set to the default value of {value}
+
+IfNotDefault()
+// Error: The dateonly '{value}' is not set to the default value
+
+IfMinValue()
+// Error: The dateonly is set to the minimum value of {value}
+
+IfNotMinValue()
+// Error: The dateonly '{value}' is not set to the minimum value of {DateOnly.MinValue}
+
+IfMaxValue()
+// Error: The dateonly is set to the maximum value of {value}
+
+IfNotMaxValue()
+// Error: The dateonly '{value}' is not set to the maximum value of {DateOnly.MaxValue}
 ```
 ### Float
 ```csharp
