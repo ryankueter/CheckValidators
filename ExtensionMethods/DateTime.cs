@@ -254,7 +254,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="days">The number of days</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<DateTime> IfOlderThanDays(this Check<DateTime> data, double days)
+    public static Check<DateTime> IfDaysOlderThan(this Check<DateTime> data, double days)
     {
         if (data.InvalidModel()) { return data; }
         if ((DateTime.Now - data.Value).TotalDays > days)
@@ -271,7 +271,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="days">The number of minutes</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<DateTime> IfOlderThanMinutes(this Check<DateTime> data, double minutes)
+    public static Check<DateTime> IfMinutesOlderThan(this Check<DateTime> data, double minutes)
     {
         if (data.InvalidModel()) { return data; }
         if ((DateTime.Now - data.Value).TotalMinutes > minutes)
@@ -288,7 +288,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="days">The number of seconds</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<DateTime> IfOlderThanSeconds(this Check<DateTime> data, double seconds)
+    public static Check<DateTime> IfSecondsOlderThan(this Check<DateTime> data, double seconds)
     {
         if (data.InvalidModel()) { return data; }
         if ((DateTime.Now - data.Value).TotalSeconds > seconds)
@@ -305,7 +305,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="days">The number of milliseconds</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<DateTime> IfOlderThanMilliseconds(this Check<DateTime> data, double milliseconds)
+    public static Check<DateTime> IfMillisecondsOlderThan(this Check<DateTime> data, double milliseconds)
     {
         if (data.InvalidModel()) { return data; }
         if ((DateTime.Now - data.Value).TotalMilliseconds > milliseconds)

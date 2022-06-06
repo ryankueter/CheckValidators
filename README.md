@@ -374,16 +374,16 @@ IfCountLessThan(5)
 ```
 ### DateTime
 ```csharp
-IfOlderThanDays(5)
+IfDaysOlderThan(5)
 // Error: The datetime '{value}' is older than {days} days
 
-IfOlderThanMinutes(60)
+IfMinutesOlderThan(60)
 // Error: The datetime '{value}' is older than {minutes} minutes
 
-IfOlderThanSeconds(60)
+IfSecondsOlderThan(60)
 // Error: The datetime '{value}' is older than {seconds} seconds
 
-IfOlderThanMilliseconds(6000)
+IfMillisecondsOlderThan(6000)
 // Error: The datetime '{value}' is older than {milliseconds} milliseconds
 
 IfEarlierThan(dateTime)
