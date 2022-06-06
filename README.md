@@ -36,13 +36,13 @@ catch (Exception ex)
 #### Output:
 
 ```console
-Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
-```  
-###
-Or you can turn off verbose logging by using ThrowErrors(false):
-```console
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
-```  
+```   
+###
+Or you can turn on verbose logging by using ThrowErrors(true):
+```console
+Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
+```
 ###
 #### A Realistic Example
 
@@ -78,7 +78,7 @@ try
         .If(request => new Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture).HasErrors())
         .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors())
         .IfNot(request => request.Count > 20 && request.Count < 300)
-        .ThrowErrors();
+        .ThrowErrors(true);
 }
 catch (Exception ex)
 {
@@ -138,7 +138,7 @@ IsValid() returns a boolean true or false depending on whether all the rules pas
 
 ##### ThrowErrors()
 
-ThrowErrors() will throw all the errors in a formatted error message. The default setting for errors is verbose, which displays the file name, line number, and parameter. But if you want a simpler error for display purposes, you can switch it off by supplying a false parameter: ThrowErrors(false).
+ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can turn on verbose logging by supplying a 'true' parameter: ThrowErrors(true).
 
 ```csharp
 // Throwing errors
@@ -146,7 +146,7 @@ if (!c.IsValid())
 {
     try
     {
-        c.ThrowErrors();
+        c.ThrowErrors(true);
     }
     catch (Exception ex)
     {

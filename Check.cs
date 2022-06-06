@@ -232,7 +232,7 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowErrors(bool Verbose = true)
+    public void ThrowErrors(bool Verbose = false)
     {
         if (_messages.Count > 0)
         {
@@ -259,11 +259,11 @@ public class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowFirstError(bool Verbose = true)
+    public void ThrowFirstError(bool Verbose = false)
     {
         if (_messages.Count > 0)
         {
-            if (Verbose == true)
+            if (Verbose)
                 throw new ArgumentException($"Errors: {_messages.First()}, {_caller}.", Type);
             else
                 throw new ArgumentException($"Errors: {_messages.First()}.");
