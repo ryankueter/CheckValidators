@@ -13,7 +13,7 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>Added a number of numeric and datetime built-in validators, and added built-in validators for TimeOnly and DateOnly. The previous version included a large number new features, inaddition to a few minor breaking changes. The IfElse methods deprecated in previous versions were finally removed. The ability to add custom errors were kept for the user-defined methods, like If, IfNot, AndIf, AndIfNot, OrIf, and OrIfNot, but were removed from the built-in methods in favor of readability, simplicity, extensibility, and more accurate and descriptive errors. </PackageReleaseNotes>
+		<PackageReleaseNotes>Added a number of numeric, datetime, TimeOnly, and DateOnly built-in validators. The previous version included a large number new features, inaddition to a few minor breaking changes. The IfElse methods deprecated in previous versions were finally removed. The ability to add custom errors were kept for the user-defined methods, like If, IfNot, AndIf, AndIfNot, OrIf, and OrIfNot, but were removed from the built-in methods in favor of readability, simplicity, extensibility, and more accurate and descriptive errors. </PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
 		<AssemblyVersion>1.1.9</AssemblyVersion>
 		<FileVersion>1.1.9</FileVersion>
