@@ -377,14 +377,26 @@ IfCountLessThan(5)
 IfDaysOlderThan(5)
 // Error: The datetime '{value}' is older than {days} days
 
+IfNotDaysOlderThan(5)
+// Error: The datetime '{value}' is not older than {days} days
+
 IfMinutesOlderThan(60)
 // Error: The datetime '{value}' is older than {minutes} minutes
+
+IfNotMinutesOlderThan(60)
+// Error: The datetime '{value}' is not older than {minutes} minutes
 
 IfSecondsOlderThan(60)
 // Error: The datetime '{value}' is older than {seconds} seconds
 
+IfNotSecondsOlderThan(60)
+// Error: The datetime '{value}' is not older than {seconds} seconds
+
 IfMillisecondsOlderThan(6000)
 // Error: The datetime '{value}' is older than {milliseconds} milliseconds
+
+IfNotMillisecondsOlderThan(6000)
+// Error: The datetime '{value}' is not older than {milliseconds} milliseconds
 
 IfEarlierThan(dateTime)
 // Error: The datetime '{value}' is earlier than '{dateTime}'

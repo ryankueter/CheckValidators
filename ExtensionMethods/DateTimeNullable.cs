@@ -306,6 +306,23 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
+    /// Check if the datetime is not older than a number of days
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="days">The number of days</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<DateTime?> IfNotDaysOlderThan(this Check<DateTime?> data, double days)
+    {
+        if (data.InvalidModel()) { return data; }
+        if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalDays <= days)
+        {
+            data.ThrowError($"The datetime '{data.Value}' is not older than {days} days");
+        }
+        return data;
+    }
+
+    /// <summary>
     /// Check if the datetime is older than a number of minutes
     /// </summary>
     /// <param name="data"></param>
@@ -318,6 +335,23 @@ public static partial class CheckValidatorsExtensions
         if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalMinutes > minutes)
         {
             data.ThrowError($"The datetime '{data.Value}' is older than {minutes} minutes");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the datetime is not older than a number of minutes
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="days">The number of minutes</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<DateTime?> IfNotMinutesOlderThan(this Check<DateTime?> data, double minutes)
+    {
+        if (data.InvalidModel()) { return data; }
+        if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalMinutes <= minutes)
+        {
+            data.ThrowError($"The datetime '{data.Value}' is not older than {minutes} minutes");
         }
         return data;
     }
@@ -340,6 +374,23 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
+    /// Check if the datetime is not older than a number of seconds
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="days">The number of seconds</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<DateTime?> IfNotSecondsOlderThan(this Check<DateTime?> data, double seconds)
+    {
+        if (data.InvalidModel()) { return data; }
+        if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalSeconds <= seconds)
+        {
+            data.ThrowError($"The datetime '{data.Value}' is not older than {seconds} seconds");
+        }
+        return data;
+    }
+
+    /// <summary>
     /// Check if the datetime is older than a number of milliseconds
     /// </summary>
     /// <param name="data"></param>
@@ -352,6 +403,23 @@ public static partial class CheckValidatorsExtensions
         if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalMilliseconds > milliseconds)
         {
             data.ThrowError($"The datetime '{data.Value}' is older than {milliseconds} milliseconds");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the datetime is not older than a number of milliseconds
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="days">The number of milliseconds</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<DateTime?> IfNotMillisecondsOlderThan(this Check<DateTime?> data, double milliseconds)
+    {
+        if (data.InvalidModel()) { return data; }
+        if ((DateTime.Now - Convert.ToDateTime(data.Value)).TotalMilliseconds <= milliseconds)
+        {
+            data.ThrowError($"The datetime '{data.Value}' is not older than {milliseconds} milliseconds");
         }
         return data;
     }
