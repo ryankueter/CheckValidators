@@ -18,7 +18,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError("The integer is negative");
+            data.ThrowError("The number is negative");
         }
         return data;
     }
@@ -34,7 +34,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError("The integer is positive");
+            data.ThrowError("The number is positive");
         }
         return data;
     }
@@ -50,7 +50,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError("The integer is zero");
+            data.ThrowError("The number is zero");
         }
         return data;
     }
@@ -66,7 +66,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError("The integer is not zero");
+            data.ThrowError("The number is not zero");
         }
         return data;
     }
@@ -83,7 +83,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The integer is greater than {value}");
+            data.ThrowError($"The number is greater than {value}");
         }
         return data;
     }
@@ -100,7 +100,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The integer is less than {value}");
+            data.ThrowError($"The number is less than {value}");
         }
         return data;
     }
@@ -117,7 +117,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The integer should not be {value}");
+            data.ThrowError($"The number should not be {value}");
         }
         return data;
     }
@@ -134,7 +134,41 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The integer should be {value}");
+            data.ThrowError($"The number should be {value}");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number is between two values
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<int> IfBetween(this Check<int> data, double startValue, double endValue)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value > startValue && data.Value < endValue)
+        {
+            data.ThrowError($"The number '{data.Value}' is between '{startValue}' and '{endValue}'");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number is not between two values
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<int> IfNotBetween(this Check<int> data, double startValue, double endValue)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value <= startValue || data.Value >= endValue)
+        {
+            data.ThrowError($"The number '{data.Value}' is not between '{startValue}' and '{endValue}'");
         }
         return data;
     }

@@ -8,167 +8,167 @@ namespace CheckValidators;
 public static partial class CheckValidatorsExtensions
 {
     /// <summary>
-    /// Check if the number is negative
+    /// Check if the decimal is negative
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNegative(this Check<long> data)
+    public static Check<decimal?> IfNegative(this Check<decimal?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError("The number is negative");
+            data.ThrowError("The decimal is negative");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is positive
+    /// Check if the decimal is positive
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfPositive(this Check<long> data)
+    public static Check<decimal?> IfPositive(this Check<decimal?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError("The number is positive");
+            data.ThrowError("The decimal is positive");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is zero
+    /// Check if the decimal is zero
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfZero(this Check<long> data)
+    public static Check<decimal?> IfZero(this Check<decimal?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError("The number is zero");
+            data.ThrowError("The decimal is zero");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is not zero
+    /// Check if the decimal is not zero
     /// </summary>
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotZero(this Check<long> data)
+    public static Check<decimal?> IfNotZero(this Check<decimal?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError("The number is not zero");
+            data.ThrowError("The decimal is not zero");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is greater than a specified value
+    /// Check if the decimal is greater than a specified value
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfGreaterThan(this Check<long> data, int value)
+    public static Check<decimal?> IfGreaterThan(this Check<decimal?> data, decimal value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The number is greater than {value}");
+            data.ThrowError($"The decimal is greater than {value}");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is greater than a specified value
+    /// Check if the decimal is greater than a specified value
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfLessThan(this Check<long> data, int value)
+    public static Check<decimal?> IfLessThan(this Check<decimal?> data, decimal value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The number is less than {value}");
+            data.ThrowError($"The decimal is less than {value}");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number equals a specified value
+    /// Check if the decimal equals a specified value
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfEquals(this Check<long> data, int value)
+    public static Check<decimal?> IfEquals(this Check<decimal?> data, decimal value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The number should not be {value}");
+            data.ThrowError($"The decimal should not be {value}");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is does not equal a specified value
+    /// Check if the decimal is does not equal a specified value
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotEquals(this Check<long> data, float value)
+    public static Check<decimal?> IfNotEquals(this Check<decimal?> data, decimal value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The number should be {value}");
+            data.ThrowError($"The decimal should be {value}");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is between two values
+    /// Check if the decimal is between two values
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfBetween(this Check<long> data, double startValue, double endValue)
+    public static Check<decimal?> IfBetween(this Check<decimal?> data, decimal startValue, decimal endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > startValue && data.Value < endValue)
         {
-            data.ThrowError($"The number '{data.Value}' is between '{startValue}' and '{endValue}'");
+            data.ThrowError($"The decimal '{data.Value}' is between '{startValue}' and '{endValue}'");
         }
         return data;
     }
 
     /// <summary>
-    /// Check if the number is not between two values
+    /// Check if the decimal is not between two values
     /// </summary>
     /// <param name="data"></param>
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotBetween(this Check<long> data, double startValue, double endValue)
+    public static Check<decimal?> IfNotBetween(this Check<decimal?> data, decimal startValue, decimal endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value <= startValue || data.Value >= endValue)
         {
-            data.ThrowError($"The number '{data.Value}' is not between '{startValue}' and '{endValue}'");
+            data.ThrowError($"The decimal '{data.Value}' is not between '{startValue}' and '{endValue}'");
         }
         return data;
     }

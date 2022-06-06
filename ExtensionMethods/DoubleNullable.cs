@@ -138,4 +138,38 @@ public static partial class CheckValidatorsExtensions
         }
         return data;
     }
+
+    /// <summary>
+    /// Check if the number is between two values
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<double?> IfBetween(this Check<double?> data, double startValue, double endValue)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value > startValue && data.Value < endValue)
+        {
+            data.ThrowError($"The number '{data.Value}' is between '{startValue}' and '{endValue}'");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Check if the number is not between two values
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<double?> IfNotBetween(this Check<double?> data, double startValue, double endValue)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value <= startValue || data.Value >= endValue)
+        {
+            data.ThrowError($"The number '{data.Value}' is not between '{startValue}' and '{endValue}'");
+        }
+        return data;
+    }
 }

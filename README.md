@@ -46,7 +46,7 @@ Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
 ###
 #### A Realistic Example
 
-One of the features that makes this library so power is not just the ability to use LINQ to validate class members and collections, but you can also nest Check validators inside of those validation rules.
+One of the features that makes this library so powerful is not just the ability to use LINQ to validate class members and collections, but you can also nest Check validators inside of those validation rules. This can allow you to more easily validate the contents of lists and other types of collections.
 
 In the following examples, the following checks are being used inside of user-defined validation rules.
 * Check<string>(request.Email).IfNotEmail()
@@ -332,28 +332,25 @@ IfCountGreaterThan(5)
 IfCountLessThan(5)
 // Error: The item count is less than {count}
 ```
-### DateTime
+### List
 ```csharp
-IfUtcTime()
-// Error: The datetime format is Utc
+IfEmpty()
+// Error: The list is empty
 
-IfNotUtcTime()
-// Error: The datetime format is not Utc
+IfNotEmpty()
+// Error: The list is not empty
 
-IfLocalTime()
-// Error: The datetime format is local
+IfCount(5)
+// Error: The item count should not be {count}
 
-IfNotLocalTime()
-// Error: The datetime format is not local
+IfNotCount(5)
+// Error: The item count is not {count}
 
-IfUnspecifiedTimeFormat()
-// Error: The datetime format is unspecified
+IfCountGreaterThan(5)
+// Error: The item count is greater than {count}
 
-IfDefault()
-// Error: The datetime is set to the default value
-
-IfNotDefault()
-// Error: The datetime is not set to the default value
+IfCountLessThan(5)
+// Error: The item count is less than {count}
 ```
 ### Dictionary
 ```csharp
@@ -374,6 +371,153 @@ IfCountGreaterThan(5)
 
 IfCountLessThan(5)
 // Error: The item count is less than {count}
+```
+### DateTime
+```csharp
+IfOlderThanDays(5)
+// Error: The datetime '{value}' is older than {days} days
+
+IfOlderThanMinutes(60)
+// Error: The datetime '{value}' is older than {minutes} minutes
+
+IfOlderThanSeconds(60)
+// Error: The datetime '{value}' is older than {seconds} seconds
+
+IfOlderThanMilliseconds(6000)
+// Error: The datetime '{value}' is older than {milliseconds} milliseconds
+
+IfEarlierThan(dateTime)
+// Error: The datetime '{value}' is earlier than '{dateTime}'
+
+IfLaterThan(dateTime)
+// Error: The datetime '{value}' is later than '{dateTime}'
+
+IfEqual(dateTime)
+// Error: The datetime '{value}' is equal to '{dateTime}'
+
+IfNotEqual(dateTime)
+// Error: The datetime '{value}' is not equal to '{dateTime}'
+
+IfBetween(startTime, endTime)
+// Error: The datetime '{value}' is between '{startTime}' and '{endTime}'
+
+IfNotBetween(startTime, endTime)
+// Error: The datetime '{value}' is not between '{startTime}' and '{endTime}'
+
+IfUtcTime()
+// Error: The datetime format is Utc
+
+IfNotUtcTime()
+// Error: The datetime format is not Utc
+
+IfLocalTime()
+// Error: The datetime format is local
+
+IfNotLocalTime()
+// Error: The datetime format is not local
+
+IfUnspecifiedTimeFormat()
+// Error: The datetime format is unspecified
+
+IfDayLightSavingsTime()
+// Error: The datetime '{value}' is on daylight savings time
+
+IfNotDayLightSavingsTime()
+// Error: The datetime '{value}' is not on daylight savings time
+
+IfDefault()
+// Error: The datetime is set to the default value
+
+IfNotDefault()
+// Error: The datetime is not set to the default value
+
+IfSunday()
+// Error: The day of the week should not be Sunday
+
+IfNotSunday()
+// Error: The day of the week should be Sunday
+
+IfMonday()
+// Error: The day of the week should not be Monday
+
+IfNotMonday()
+// Error: The day of the week should be Monday
+
+IfTuesday()
+// Error: The day of the week should not be Tuesday
+
+IfNotTuesday()
+// Error: The day of the week should be Tuesday
+
+IfWednesday()
+// Error: The day of the week should not be Wednesday
+
+IfNotWednesday()
+// Error: The day of the week should be Wednesday
+
+IfThursday()
+// Error: The day of the week should not be Thursday
+
+IfNotThursday()
+// Error: The day of the week should be Thursday
+
+IfFriday()
+// Error: The day of the week should not be Friday
+
+IfNotFriday()
+// Error: The day of the week should be Friday
+
+IfSaturday()
+// Error: The day of the week should not be Saturday
+
+IfNotSaturday()
+// Error: The day of the week should be Saturday
+```
+### TimeOnly
+```csharp
+IfDefault()
+// Error: The timeonly is set to the default value of {value}
+
+IfNotDefault()
+// Error: The timeonly '{value}' is not set to the default value
+
+IfMinValue()
+// Error: The timeonly is set to the minimum value of {value}
+
+IfNotMinValue()
+// Error: The timeonly '{value}' is not set to the minimum value of {TimeOnly.MinValue}
+
+IfMaxValue()
+// Error: The timeonly is set to the maximum value of {value}
+
+IfNotMaxValue()
+// Error: The timeonly '{value}' is not set to the maximum value of {TimeOnly.MaxValue}
+
+IfBetween(startTime, endTime)
+// Error: The timeonly is between '{startTime}' and '{endTime}'
+
+IfNotBetween(startTime, endTime)
+// Error: The timeonly is not between '{startTime}' and '{endTime}'
+```
+### DateOnly
+```csharp
+IfDefault()
+// Error: The dateonly is set to the default value of {value}
+
+IfNotDefault()
+// Error: The dateonly '{value}' is not set to the default value
+
+IfMinValue()
+// Error: The dateonly is set to the minimum value of {value}
+
+IfNotMinValue()
+// Error: The dateonly '{value}' is not set to the minimum value of {DateOnly.MinValue}
+
+IfMaxValue()
+// Error: The dateonly is set to the maximum value of {value}
+
+IfNotMaxValue()
+// Error: The dateonly '{value}' is not set to the maximum value of {DateOnly.MaxValue}
 ```
 ### Double
 ```csharp
@@ -401,54 +545,14 @@ IfEquals(5)
 IfNotEquals(5)
 // Error: The double should be {value}
 ```
-### TimeOnly
-```csharp
-IfDefault()
-// Error: The timeonly is set to the default value of {value}
-
-IfNotDefault()
-// Error: The timeonly '{value}' is not set to the default value
-
-IfMinValue()
-// Error: The timeonly is set to the minimum value of {value}
-
-IfNotMinValue()
-// Error: The timeonly '{value}' is not set to the minimum value of {TimeOnly.MinValue}
-
-IfMaxValue()
-// Error: The timeonly is set to the maximum value of {value}
-
-IfNotMaxValue()
-// Error: The timeonly '{value}' is not set to the maximum value of {TimeOnly.MaxValue}
-
-IfBetween()
-// Error: The timeonly is between '{startTime}' and '{endTime}'
-
-IfNotBetween()
-// Error: The timeonly is not between '{startTime}' and '{endTime}'
-```
-### DateOnly
-```csharp
-IfDefault()
-// Error: The dateonly is set to the default value of {value}
-
-IfNotDefault()
-// Error: The dateonly '{value}' is not set to the default value
-
-IfMinValue()
-// Error: The dateonly is set to the minimum value of {value}
-
-IfNotMinValue()
-// Error: The dateonly '{value}' is not set to the minimum value of {DateOnly.MinValue}
-
-IfMaxValue()
-// Error: The dateonly is set to the maximum value of {value}
-
-IfNotMaxValue()
-// Error: The dateonly '{value}' is not set to the maximum value of {DateOnly.MaxValue}
-```
 ### Float
 ```csharp
+IfBetween(startValue, endValue)
+// Error: The float '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The float '{value}' is not between '{startValue}' and '{endValue}'
+
 IfNegative()
 // Error: The float is negative
 
@@ -473,77 +577,133 @@ IfEquals(5)
 IfNotEquals(5)
 // Error: The float should be {value}
 ```
-### Int
+### Short (Int16)
 ```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
 IfNegative()
-// Error: The integer is negative
+// Error: The number is negative
 
 IfPositive()
-// Error: The integer is positive
+// Error: The number is positive
 
 IfZero()
-// Error: The integer is zero
+// Error: The number is zero
 
 IfNotZero()
-// Error: The integer is not zero
+// Error: The number is not zero
 
 IfGreaterThan(5)
-// Error: The integer is greater than {value}
+// Error: The number is greater than {value}
 
 IfLessThan(5)
-// Error: The integer is less than {value}
+// Error: The number is less than {value}
 
 IfEquals(5)
-// Error: The integer should not be {value}
+// Error: The number should not be {value}
 
 IfNotEquals(5)
-// Error: The integer should be {value}
+// Error: The number should be {value}
 ```
-### List
+### Int (Int32)
 ```csharp
-IfEmpty()
-// Error: The list is empty
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
 
-IfNotEmpty()
-// Error: The list is not empty
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
 
-IfCount(5)
-// Error: The item count should not be {count}
-
-IfNotCount(5)
-// Error: The item count is not {count}
-
-IfCountGreaterThan(5)
-// Error: The item count is greater than {count}
-
-IfCountLessThan(5)
-// Error: The item count is less than {count}
-```
-### Long
-```csharp
 IfNegative()
-// Error: The long is negative
+// Error: The number is negative
 
 IfPositive()
-// Error: The long is positive
+// Error: The number is positive
 
 IfZero()
-// Error: The long is zero
+// Error: The number is zero
 
 IfNotZero()
-// Error: The long is not zero
+// Error: The number is not zero
 
 IfGreaterThan(5)
-// Error: The long is greater than {value}
+// Error: The number is greater than {value}
 
 IfLessThan(5)
-// Error: The long is less than {value}
+// Error: The number is less than {value}
 
 IfEquals(5)
-// Error: The long should not be {value}
+// Error: The number should not be {value}
 
 IfNotEquals(5)
-// Error: The long should be {value}
+// Error: The number should be {value}
+```
+### Long (Int64)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### Decimal
+```csharp
+IfBetween(startValue, endValue)
+// Error: The decimal '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The decimal '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The decimal is negative
+
+IfPositive()
+// Error: The decimal is positive
+
+IfZero()
+// Error: The decimal is zero
+
+IfNotZero()
+// Error: The decimal is not zero
+
+IfGreaterThan(5)
+// Error: The decimal is greater than {value}
+
+IfLessThan(5)
+// Error: The decimal is less than {value}
+
+IfEquals(5)
+// Error: The decimal should not be {value}
+
+IfNotEquals(5)
+// Error: The decimal should be {value}
 ```
 ### Uri
 ```csharp
