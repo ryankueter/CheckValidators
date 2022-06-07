@@ -78,7 +78,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfGreaterThan(this Check<long> data, int value)
+    public static Check<long> IfGreaterThan(this Check<long> data, long value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
@@ -95,7 +95,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfLessThan(this Check<long> data, int value)
+    public static Check<long> IfLessThan(this Check<long> data, long value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
@@ -112,7 +112,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfEquals(this Check<long> data, int value)
+    public static Check<long> IfEquals(this Check<long> data, long value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
@@ -129,7 +129,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotEquals(this Check<long> data, float value)
+    public static Check<long> IfNotEquals(this Check<long> data, long value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
@@ -146,7 +146,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfBetween(this Check<long> data, double startValue, double endValue)
+    public static Check<long> IfBetween(this Check<long> data, long startValue, long endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > startValue && data.Value < endValue)
@@ -163,7 +163,7 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<long> IfNotBetween(this Check<long> data, double startValue, double endValue)
+    public static Check<long> IfNotBetween(this Check<long> data, long startValue, long endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value <= startValue || data.Value >= endValue)

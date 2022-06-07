@@ -13,12 +13,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNegative(this Check<float> data)
+    public static Check<uint?> IfNegative(this Check<uint?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value < 0)
         {
-            data.ThrowError("The float is negative");
+            data.ThrowError("The number is negative");
         }
         return data;
     }
@@ -29,12 +29,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfPositive(this Check<float> data)
+    public static Check<uint?> IfPositive(this Check<uint?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > 0)
         {
-            data.ThrowError("The float is positive");
+            data.ThrowError("The number is positive");
         }
         return data;
     }
@@ -45,12 +45,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfZero(this Check<float> data)
+    public static Check<uint?> IfZero(this Check<uint?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is 0)
         {
-            data.ThrowError("The float is zero");
+            data.ThrowError("The number is zero");
         }
         return data;
     }
@@ -61,12 +61,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="data"></param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNotZero(this Check<float> data)
+    public static Check<uint?> IfNotZero(this Check<uint?> data)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value is not 0)
         {
-            data.ThrowError("The float is not zero");
+            data.ThrowError("The number is not zero");
         }
         return data;
     }
@@ -78,12 +78,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfGreaterThan(this Check<float> data, float value)
+    public static Check<uint?> IfGreaterThan(this Check<uint?> data, uint value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The float is greater than {value}");
+            data.ThrowError($"The number is greater than {value}");
         }
         return data;
     }
@@ -95,12 +95,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfLessThan(this Check<float> data, float value)
+    public static Check<uint?> IfLessThan(this Check<uint?> data, uint value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > value)
         {
-            data.ThrowError($"The float is less than {value}");
+            data.ThrowError($"The number is less than {value}");
         }
         return data;
     }
@@ -112,12 +112,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfEquals(this Check<float> data, float value)
+    public static Check<uint?> IfEquals(this Check<uint?> data, uint value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The float should not be {value}");
+            data.ThrowError($"The number should not be {value}");
         }
         return data;
     }
@@ -129,12 +129,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNotEquals(this Check<float> data, float value)
+    public static Check<uint?> IfNotEquals(this Check<uint?> data, uint value)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value == value)
         {
-            data.ThrowError($"The float should be {value}");
+            data.ThrowError($"The number should be {value}");
         }
         return data;
     }
@@ -146,12 +146,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfBetween(this Check<float> data, float startValue, float endValue)
+    public static Check<uint?> IfBetween(this Check<uint?> data, uint startValue, uint endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value > startValue && data.Value < endValue)
         {
-            data.ThrowError($"The float '{data.Value}' is between '{startValue}' and '{endValue}'");
+            data.ThrowError($"The number '{data.Value}' is between '{startValue}' and '{endValue}'");
         }
         return data;
     }
@@ -163,12 +163,12 @@ public static partial class CheckValidatorsExtensions
     /// <param name="value">The number you are comparing</param>
     /// <param name="msg">Custom error message</param>
     /// <returns></returns>
-    public static Check<float> IfNotBetween(this Check<float> data, float startValue, float endValue)
+    public static Check<uint?> IfNotBetween(this Check<uint?> data, uint startValue, uint endValue)
     {
         if (data.InvalidModel()) { return data; }
         if (data.Value <= startValue || data.Value >= endValue)
         {
-            data.ThrowError($"The float '{data.Value}' is not between '{startValue}' and '{endValue}'");
+            data.ThrowError($"The number '{data.Value}' is not between '{startValue}' and '{endValue}'");
         }
         return data;
     }

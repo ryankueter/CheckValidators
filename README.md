@@ -5,7 +5,7 @@ Updated: June, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to over 100 built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to over 190 built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -13,7 +13,6 @@ Updated: June, 2022
 ## Introduction
 
 Each "Check" contains validation rules that can be chained together using method extension syntax (builder pattern).
-
 
 ```csharp
 // Validating a date
@@ -39,16 +38,17 @@ catch (Exception ex)
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
 ```   
 ###
-Or you can turn on verbose logging by using ThrowErrors(true):
+Or you can add the filename, line number, and parameter by using ThrowErrors(true):
 ```console
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
 ```
 ###
 #### A Realistic Example
 
-One of the features that makes this library so powerful is not just the ability to use LINQ to validate class members and collections, but you can also nest Check validators inside of those validation rules. This can allow you to more easily validate the contents of lists and other types of collections.
 
-In the following examples, the following checks are being used inside of user-defined validation rules.
+One of the more powerful features of this library is the ability to use LINQ to validate custom datatypes and include other “Check” validators inside those validation rules. This can allow you to apply validators to collections.
+
+Notice that the following checks are being used inside of user-defined validation rules.
 * Check<string>(request.Email).IfNotEmail()
 * Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime()
 * Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture)
@@ -95,7 +95,7 @@ Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A pers
 ###
 ## Validations
 
-Each validation rule provides a default error message that includes specifics about the causes of the error. With the user-defined validation rules, the errors display the logic used in the validation rule, or you can specify your own custom error.
+Each validation rule provides a default error message that includes specifics about the causes of the error. Error messages for user-defined validation rules consist of the logic used in the validation rule or you specify your own custom error.
 
 ### Utilities
 
@@ -115,7 +115,7 @@ var c = new Check<string>(data)
 
 ##### HasErrors()
 
-If you want to determine if any validation errors occured, you could call this to give you a boolean result.
+If you want to determine if any validation errors occured, you could call HasErrors() to give you a boolean value.
 
 ##### GetErrors()
 
@@ -134,11 +134,11 @@ if (c.HasErrors())
 
 ##### IsValid()
 
-IsValid() returns a boolean true or false depending on whether all the rules passed validation. If they do, it will return true. If one failed, it will return false. This can be useful for validation scenarios where you don't want to throw an error.
+IsValid() returns a boolean value depending on whether all the rules passed validation. If they do, it will return true. If one failed, it will return false. This can be useful for validation scenarios where you don't want to throw an error.
 
 ##### ThrowErrors()
 
-ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can turn on verbose logging by supplying a 'true' parameter: ThrowErrors(true).
+ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can use ThrowErrors(true).
 
 ```csharp
 // Throwing errors
@@ -161,12 +161,12 @@ Errors: 1) String length should not equal 10 characters, 2) The string does not 
 
 ### User-Defined Validation Rules
 
-User-defined validation rules allow you to use LINQ to validate your data. When writing user-defined validation rules, you typically want to write your own error message. If you don't, the expression that fails will be recorded.
+User-defined validation rules allow you to use LINQ to validate your data. When writing user-defined validation rules, you typically want to write your own error message. If you don't, the expression that fails will be displayed in the error.
 
 ###
 #### If and IfNot
 
-If and IfNot conditions allow you to use LINQ to query objects and lists in the object. If you use the standard default error message, it will include the query you are using in your message, in addition to the name and type of object you are checking.
+If and IfNot conditions allow you to use LINQ to query objects and lists in the object. If the expression is false, it will produce an error message.
 
 ```csharp
 If(user => user.User is null)
@@ -212,7 +212,7 @@ Check validators also include a large number of built-in validation rules. Each 
 
 ### General
 
-If you want to throw an error that the object you are checking is null, then you need to include IfNull(). If the object you are checking is null, none of the other validations will be checked. So, this is a good one to include.
+If you want to throw an error when the object you are checking is null, then you need to include IfNull(). If the object you are checking is null, none of the other validations will be checked. So, this is a good one to include.
 ```csharp
 IfNull()
 // Error: The value is null
@@ -685,6 +685,102 @@ IfEquals(5)
 IfNotEquals(5)
 // Error: The number should be {value}
 ```
+### UShort (UInt16)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### UInt (UInt32)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### ULong (UInt64)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
 ### Decimal
 ```csharp
 IfBetween(startValue, endValue)
@@ -759,7 +855,7 @@ IfNotLoopback()
 ###
 ## Extensibility
 
-You can create your own custom extension methods anywhere in your project to add custom validators that are specific to your needs, similar to the following:
+You can write your own custom extension methods anywhere in your project to write custom validators that are specific to your needs, similar to the following:
 
 ```csharp
 public static partial class CheckValidatorsExtensions
