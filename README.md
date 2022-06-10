@@ -5,7 +5,7 @@ Updated: June, 2022
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to over 190 built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
+**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to over 200 built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6
@@ -46,7 +46,7 @@ Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Pr
 #### A Realistic Example
 
 
-One of the more powerful features of this library is the ability to use LINQ to validate custom datatypes and include other “Check” validators inside those validation rules. This can allow you to apply validators to collections.
+One of the more powerful features of this library is the ability to use LINQ to validate custom datatypes and include other check validators inside those validation rules. This can allow you to apply validators to collections.
 
 Notice that the following checks are being used inside of user-defined validation rules.
 * Check<string>(request.Email).IfNotEmail()
@@ -225,18 +225,18 @@ IfNotNull()
 
 ```csharp
 IfNotDate()
-// Error: String {data.Value} is not a date
+// Error: String {value} is not a date
 
 IfNotInteger()
-// Error: String {data.Value} is not an integer
+// Error: String {value} is not an integer
 
 IfNotEmail()
 IfNotEmail(RegexPattern, System.Text.RegularExpressions.RegexOptions.None)
-// Error: String '{data.Value}' is not an email address
+// Error: String '{value}' is not an email address
 
 IfNotURL()
 IfNotURL(RegexPattern, System.Text.RegularExpressions.RegexOptions.None)
-// Error: String {data.Value} is not a URL
+// Error: String {value} is not a URL
 
 IfNotValidPassword()
 IfNotValidPassword(8, 2, 2, 2, 2)
@@ -533,6 +533,15 @@ IfNotMaxValue()
 ```
 ### Double
 ```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
 IfNegative()
 // Error: The double is negative
 
@@ -561,6 +570,9 @@ IfNotEquals(5)
 ```csharp
 IfBetween(startValue, endValue)
 // Error: The float '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The float '{value}' is between or equal to '{startValue}' and '{endValue}'
 
 IfNotBetween(startValue, endValue)
 // Error: The float '{value}' is not between '{startValue}' and '{endValue}'
@@ -594,6 +606,9 @@ IfNotEquals(5)
 IfBetween(startValue, endValue)
 // Error: The number '{value}' is between '{startValue}' and '{endValue}'
 
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
 IfNotBetween(startValue, endValue)
 // Error: The number '{value}' is not between '{startValue}' and '{endValue}'
 
@@ -625,6 +640,9 @@ IfNotEquals(5)
 ```csharp
 IfBetween(startValue, endValue)
 // Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
 
 IfNotBetween(startValue, endValue)
 // Error: The number '{value}' is not between '{startValue}' and '{endValue}'
@@ -658,101 +676,8 @@ IfNotEquals(5)
 IfBetween(startValue, endValue)
 // Error: The number '{value}' is between '{startValue}' and '{endValue}'
 
-IfNotBetween(startValue, endValue)
-// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
-
-IfNegative()
-// Error: The number is negative
-
-IfPositive()
-// Error: The number is positive
-
-IfZero()
-// Error: The number is zero
-
-IfNotZero()
-// Error: The number is not zero
-
-IfGreaterThan(5)
-// Error: The number is greater than {value}
-
-IfLessThan(5)
-// Error: The number is less than {value}
-
-IfEquals(5)
-// Error: The number should not be {value}
-
-IfNotEquals(5)
-// Error: The number should be {value}
-```
-### UShort (UInt16)
-```csharp
-IfBetween(startValue, endValue)
-// Error: The number '{value}' is between '{startValue}' and '{endValue}'
-
-IfNotBetween(startValue, endValue)
-// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
-
-IfNegative()
-// Error: The number is negative
-
-IfPositive()
-// Error: The number is positive
-
-IfZero()
-// Error: The number is zero
-
-IfNotZero()
-// Error: The number is not zero
-
-IfGreaterThan(5)
-// Error: The number is greater than {value}
-
-IfLessThan(5)
-// Error: The number is less than {value}
-
-IfEquals(5)
-// Error: The number should not be {value}
-
-IfNotEquals(5)
-// Error: The number should be {value}
-```
-### UInt (UInt32)
-```csharp
-IfBetween(startValue, endValue)
-// Error: The number '{value}' is between '{startValue}' and '{endValue}'
-
-IfNotBetween(startValue, endValue)
-// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
-
-IfNegative()
-// Error: The number is negative
-
-IfPositive()
-// Error: The number is positive
-
-IfZero()
-// Error: The number is zero
-
-IfNotZero()
-// Error: The number is not zero
-
-IfGreaterThan(5)
-// Error: The number is greater than {value}
-
-IfLessThan(5)
-// Error: The number is less than {value}
-
-IfEquals(5)
-// Error: The number should not be {value}
-
-IfNotEquals(5)
-// Error: The number should be {value}
-```
-### ULong (UInt64)
-```csharp
-IfBetween(startValue, endValue)
-// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
 
 IfNotBetween(startValue, endValue)
 // Error: The number '{value}' is not between '{startValue}' and '{endValue}'
@@ -786,6 +711,9 @@ IfNotEquals(5)
 IfBetween(startValue, endValue)
 // Error: The decimal '{value}' is between '{startValue}' and '{endValue}'
 
+IfBetweenOrEquals(startValue, endValue)
+// Error: The decimal '{value}' is between or equal to '{startValue}' and '{endValue}'
+
 IfNotBetween(startValue, endValue)
 // Error: The decimal '{value}' is not between '{startValue}' and '{endValue}'
 
@@ -812,6 +740,127 @@ IfEquals(5)
 
 IfNotEquals(5)
 // Error: The decimal should be {value}
+```
+### UShort (UInt16)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual()
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### UInt (UInt32)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### ULong (UInt64)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### Enum
+```csharp
+IfContainsValue(value)
+// Error: The enum contains the value '{enumvalue}'
+
+IfNotContainsValue(value)
+// Error: The enum does not contain the value '{enumvalue}'
+
+IfDefined(value)
+// Error: The enum should not define a value for index {enumvalue}
+// Error: The enum should not define a value '{enumvalue}'
+
+IfNotDefined(value)
+// Error: The enum does not define a value for index {enumvalue}
+// Error: The enum does not define the value '{enumvalue}'
 ```
 ### Uri
 ```csharp

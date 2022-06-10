@@ -208,7 +208,7 @@ public static partial class CheckValidatorsExtensions
     public static Check<DateTime> IfNotBetween(this Check<DateTime> data, DateTime startTime, DateTime endTime)
     {
         if (data.InvalidModel()) { return data; }
-        if ((DateTime.Compare(data.Value, startTime) <= 0) || (0 <= DateTime.Compare(data.Value, endTime)))
+        if ((DateTime.Compare(data.Value, startTime) < 0) || (0 < DateTime.Compare(data.Value, endTime)))
         {
             data.ThrowError($"The datetime '{data.Value}' is not between '{startTime}' and '{endTime}'");
         }

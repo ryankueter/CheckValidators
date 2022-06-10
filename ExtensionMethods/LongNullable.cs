@@ -157,6 +157,23 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
+    /// Check if the number is between or equal to two values
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="value">The number you are comparing</param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<long?> IfBetweenOrEqual(this Check<long?> data, long startValue, long endValue)
+    {
+        if (data.InvalidModel()) { return data; }
+        if (data.Value >= startValue && data.Value <= endValue)
+        {
+            data.ThrowError($"The number '{data.Value}' is between or equal to '{startValue}' and '{endValue}'");
+        }
+        return data;
+    }
+
+    /// <summary>
     /// Check if the number is not between two values
     /// </summary>
     /// <param name="data"></param>
@@ -166,7 +183,7 @@ public static partial class CheckValidatorsExtensions
     public static Check<long?> IfNotBetween(this Check<long?> data, long startValue, long endValue)
     {
         if (data.InvalidModel()) { return data; }
-        if (data.Value <= startValue || data.Value >= endValue)
+        if (data.Value < startValue || data.Value > endValue)
         {
             data.ThrowError($"The number '{data.Value}' is not between '{startValue}' and '{endValue}'");
         }
