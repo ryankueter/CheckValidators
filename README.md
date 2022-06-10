@@ -224,12 +224,6 @@ IfNotNull()
 ### String
 
 ```csharp
-IfNotDate()
-// Error: String {value} is not a date
-
-IfNotInteger()
-// Error: String {value} is not an integer
-
 IfNotEmail()
 IfNotEmail(RegexPattern, System.Text.RegularExpressions.RegexOptions.None)
 // Error: String '{value}' is not an email address
@@ -257,6 +251,30 @@ IfMatches(@"\b[R]\w+", System.Text.RegularExpressions.RegexOptions.None)
 IfNotMatches(@"\b[R]\w+")
 IfNotMatches(@"\b[R]\w+", System.Text.RegularExpressions.RegexOptions.None)
 // Error: String should match the regular expressions pattern '{pattern}'
+
+IfNotDate()
+// Error: String {value} is not a date
+
+IfNotInteger()
+// Error: String {value} is not an integer
+
+IfNotInt16()
+// Error: String {value} is not an Int16
+
+IfNotInt64()
+// Error: String {value} is not an Int64
+
+IfNotTimeOnly()
+// Error: String {value} is not a TimeOnly
+
+IfNotDateOnly()
+// Error: String {value} is not a DateOnly
+
+IfNotDouble()
+// Error: String {value} is not a double
+
+IfNotFloat()
+// Error: String {value} is not a float
 
 IfEmpty()
 // Error: String is empty

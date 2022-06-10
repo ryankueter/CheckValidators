@@ -322,6 +322,23 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
+    /// Checks if the value is not an Int16
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotInt16(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        Int16 i;
+        if (!Int16.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not an Int16");
+        }
+        return data;
+    }
+
+    /// <summary>
     /// Checks if the value is not an integer
     /// </summary>
     /// <param name="data"></param>
@@ -334,6 +351,91 @@ public static partial class CheckValidatorsExtensions
         if (!Int32.TryParse(data.Value, out i))
         {
             data.ThrowError($"String {data.Value} is not an integer");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is not an Int64
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotInt64(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        Int64 i;
+        if (!Int64.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not an Int64");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is not a TimeOnly
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotTimeOnly(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        TimeOnly i;
+        if (!TimeOnly.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not a TimeOnly");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is not a DateOnly
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotDateOnly(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        DateOnly i;
+        if (!DateOnly.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not a DateOnly");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is not a double
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotDouble(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        double i;
+        if (!Double.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not a double");
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Checks if the value is not a float
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="msg">Custom error message</param>
+    /// <returns></returns>
+    public static Check<string> IfNotFloat(this Check<string> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        float i;
+        if (!float.TryParse(data.Value, out i))
+        {
+            data.ThrowError($"String {data.Value} is not a float");
         }
         return data;
     }
