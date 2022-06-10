@@ -8,13 +8,13 @@ namespace CheckValidators;
 public static partial class CheckValidatorsExtensions
 {
     /// <summary>
-    /// Checks if a list is empty
+    /// Checks if a collection is empty
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfEmpty<T>(this Check<List<T>> data)
+    public static Check<IEnumerable<T>> IfEmpty<T>(this Check<IEnumerable<T>> data)
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -29,13 +29,13 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
-    /// Checks if a list is not empty
+    /// Checks if a collection is not empty
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfNotEmpty<T>(this Check<List<T>> data)
+    public static Check<IEnumerable<T>> IfNotEmpty<T>(this Check<IEnumerable<T>> data)
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -51,14 +51,14 @@ public static partial class CheckValidatorsExtensions
 
 
     /// <summary>
-    /// Checks if a list has a specified number of records
+    /// Checks if a collection has a specified number of items
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="count">The record count</param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfCount<T>(this Check<List<T>> data, int count)
+    public static Check<IEnumerable<T>> IfCount<T>(this Check<IEnumerable<T>> data, int count)
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -73,14 +73,14 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
-    /// Checks if a list has a specified number of records
+    /// Checks if a collection has a specified number of items
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="count">The record count</param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfNotCount<T>(this Check<List<T>> data, int count)
+    public static Check<IEnumerable<T>> IfNotCount<T>(this Check<IEnumerable<T>> data, int count)
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -95,14 +95,14 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
-    /// Checks if a list has a record count greater than the number specified.
+    /// Checks if a list has a count greater than the number specified.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="count">The record count</param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfCountGreaterThan<T>(this Check<List<T>> data, int count)
+    public static Check<IEnumerable<T>> IfCountGreaterThan<T>(this Check<IEnumerable<T>> data, int count)
     {
         if (data.InvalidModel()) { return data; }
         try
@@ -117,14 +117,14 @@ public static partial class CheckValidatorsExtensions
     }
 
     /// <summary>
-    /// Checks if a list has a record count less than the number specified.
+    /// Checks if a list has a count less than the number specified.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="data"></param>
     /// <param name="count">The record count</param>
     /// <param name="msg">The custom error</param>
     /// <returns></returns>
-    public static Check<List<T>> IfCountLessThan<T>(this Check<List<T>> data, int count)
+    public static Check<IEnumerable<T>> IfCountLessThan<T>(this Check<IEnumerable<T>> data, int count)
     {
         if (data.InvalidModel()) { return data; }
         try
