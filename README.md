@@ -1,7 +1,7 @@
 # Check Validators (.NET)
 
 Author: Ryan Kueter  
-Updated: June, 2022
+Updated: August, 2022
 
 ## About
 
@@ -690,6 +690,41 @@ IfNotEquals(5)
 // Error: The number should be {value}
 ```
 ### Long (Int64)
+```csharp
+IfBetween(startValue, endValue)
+// Error: The number '{value}' is between '{startValue}' and '{endValue}'
+
+IfBetweenOrEqual(startValue, endValue)
+// Error: The number '{value}' is between or equal to '{startValue}' and '{endValue}'
+
+IfNotBetween(startValue, endValue)
+// Error: The number '{value}' is not between '{startValue}' and '{endValue}'
+
+IfNegative()
+// Error: The number is negative
+
+IfPositive()
+// Error: The number is positive
+
+IfZero()
+// Error: The number is zero
+
+IfNotZero()
+// Error: The number is not zero
+
+IfGreaterThan(5)
+// Error: The number is greater than {value}
+
+IfLessThan(5)
+// Error: The number is less than {value}
+
+IfEquals(5)
+// Error: The number should not be {value}
+
+IfNotEquals(5)
+// Error: The number should be {value}
+```
+### BigInteger
 ```csharp
 IfBetween(startValue, endValue)
 // Error: The number '{value}' is between '{startValue}' and '{endValue}'
