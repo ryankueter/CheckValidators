@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace CheckValidators;
 
-public class Check<T> : IDisposable
+public sealed class Check<T> : IDisposable
 {
     internal readonly bool IsNull;
     private bool _isValid;
