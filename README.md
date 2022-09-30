@@ -503,6 +503,110 @@ IfSaturday()
 IfNotSaturday()
 // Error: The day of the week should be Saturday
 ```
+### DateTimeOffset
+```csharp
+IfDaysOlderThan(5)
+// Error: The datetime '{value}' is older than {days} days
+
+IfNotDaysOlderThan(5)
+// Error: The datetime '{value}' is not older than {days} days
+
+IfMinutesOlderThan(60)
+// Error: The datetime '{value}' is older than {minutes} minutes
+
+IfNotMinutesOlderThan(60)
+// Error: The datetime '{value}' is not older than {minutes} minutes
+
+IfSecondsOlderThan(60)
+// Error: The datetime '{value}' is older than {seconds} seconds
+
+IfNotSecondsOlderThan(60)
+// Error: The datetime '{value}' is not older than {seconds} seconds
+
+IfMillisecondsOlderThan(6000)
+// Error: The datetime '{value}' is older than {milliseconds} milliseconds
+
+IfNotMillisecondsOlderThan(6000)
+// Error: The datetime '{value}' is not older than {milliseconds} milliseconds
+
+IfEarlierThan(dateTime)
+// Error: The datetime '{value}' is earlier than '{dateTime}'
+
+IfLaterThan(dateTime)
+// Error: The datetime '{value}' is later than '{dateTime}'
+
+IfEqual(dateTime)
+// Error: The datetime '{value}' is equal to '{dateTime}'
+
+IfNotEqual(dateTime)
+// Error: The datetime '{value}' is not equal to '{dateTime}'
+
+IfBetween(startTime, endTime)
+// Error: The datetime '{value}' is between '{startTime}' and '{endTime}'
+
+IfNotBetween(startTime, endTime)
+// Error: The datetime '{value}' is not between '{startTime}' and '{endTime}'
+
+IfUtcTime()
+// Error: The datetime format is Utc
+
+IfNotUtcTime()
+// Error: The datetime format is not Utc
+
+IfDayLightSavingsTime()
+// Error: The datetime '{value}' is on daylight savings time
+
+IfNotDayLightSavingsTime()
+// Error: The datetime '{value}' is not on daylight savings time
+
+IfDefault()
+// Error: The datetime is set to the default value
+
+IfNotDefault()
+// Error: The datetime is not set to the default value
+
+IfSunday()
+// Error: The day of the week should not be Sunday
+
+IfNotSunday()
+// Error: The day of the week should be Sunday
+
+IfMonday()
+// Error: The day of the week should not be Monday
+
+IfNotMonday()
+// Error: The day of the week should be Monday
+
+IfTuesday()
+// Error: The day of the week should not be Tuesday
+
+IfNotTuesday()
+// Error: The day of the week should be Tuesday
+
+IfWednesday()
+// Error: The day of the week should not be Wednesday
+
+IfNotWednesday()
+// Error: The day of the week should be Wednesday
+
+IfThursday()
+// Error: The day of the week should not be Thursday
+
+IfNotThursday()
+// Error: The day of the week should be Thursday
+
+IfFriday()
+// Error: The day of the week should not be Friday
+
+IfNotFriday()
+// Error: The day of the week should be Friday
+
+IfSaturday()
+// Error: The day of the week should not be Saturday
+
+IfNotSaturday()
+// Error: The day of the week should be Saturday
+```
 ### TimeOnly
 ```csharp
 IfDefault()
