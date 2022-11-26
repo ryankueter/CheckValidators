@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.18</Version>
+		<Version>1.1.19</Version>
 		<Authors>Ryan A. Kueter</Authors>
 		<Company>Ryan A. Kueter</Company>
 		<Description>A flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to hundreds of built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.</Description>
@@ -13,10 +13,10 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>Added DateTimeOffset and DateTimeOffset? validators.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added a .Net 7 target.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
-		<AssemblyVersion>1.1.18</AssemblyVersion>
-		<FileVersion>1.1.18</FileVersion>
+		<AssemblyVersion>1.1.19</AssemblyVersion>
+		<FileVersion>1.1.19</FileVersion>
 		<Copyright>Ryan A. Kueter</Copyright>
 		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

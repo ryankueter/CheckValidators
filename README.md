@@ -1,14 +1,14 @@
 # Check Validators (.NET)
 
 Author: Ryan Kueter  
-Updated: September, 2022
+Updated: November, 2022
 
 ## About
 
 **Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to hundreds of built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
 
 ### Targets:
-- .NET 6
+- .NET 6, .NET 7
 
 ## Introduction
 
