@@ -18,7 +18,7 @@ public sealed class Check<T> : IDisposable
     internal readonly string Type;
 
     private IList<string> _messages;
-    private readonly IList<T> _context;
+
     /// <summary>
     /// Gets the file and line number
     /// on which the exception occurs
@@ -35,7 +35,6 @@ public sealed class Check<T> : IDisposable
         if (t is null) { IsNull = true; _isValid = false; }
         Value = t;
         Type = $"{expression} <{typeof(T).Name}>";
-        _context = new List<T>() { Value };
         _messages = new List<string>();
         _caller = $"in {Path.GetFileName(file)}:line {line}";
     }
@@ -82,7 +81,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is true
-            if (_context.Where(condition).Any())
+            if (condition(Value))
             {
                 ThrowError($"If({expression})", msg);
             }
@@ -106,7 +105,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is false
-            if (!_context.Where(condition).Any())
+            if (!condition(Value))
             {
                 ThrowError($"IfNot({expression})", msg);
             }
@@ -131,7 +130,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is true
-            if (_context.Where(condition).Any())
+            if (condition(Value))
             {
                 ThrowError($"AndIf({expression})", msg);
             }
@@ -155,7 +154,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is false
-            if (!_context.Where(condition).Any())
+            if (!condition(Value))
             {
                 ThrowError($"AndIfNot({expression})", msg);
             }
@@ -181,7 +180,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is true
-            if (_context.Where(condition).Any())
+            if (condition(Value))
             {
                 ThrowError($"OrIf({expression})", msg);
             }
@@ -205,7 +204,7 @@ public sealed class Check<T> : IDisposable
         try
         {
             // Check if condition is false
-            if (!_context.Where(condition).Any())
+            if (!condition(Value))
             {
                 ThrowError($"OrIfNot({expression})", msg);
             }
