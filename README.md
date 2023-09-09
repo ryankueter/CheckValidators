@@ -234,10 +234,6 @@ OrIfNot(user => user.User is null)
 OrIfNot(user => user.User is null, "Custom error message.")
 // Default Error: OrIfNot({expression})
 ```  
-###  
-### Built-in Validations
-
-Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages.
 
 ###
 ## Extensibility
@@ -262,6 +258,10 @@ public static partial class CheckValidatorsExtensions
     }
 }
 ```
+###  
+### Built-in Validations
+
+Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages.
 
 ### General
 
