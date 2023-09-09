@@ -105,89 +105,6 @@ var mycheck = new Check<MyServiceRequest>(request)
 Errors: 1) If(request => request.Email == null), in Program.cs:line 89.
 ```
 
-###
-## Validations
-
-Each validation rule provides a default error message that includes specifics about the causes of the error. Error messages for user-defined validation rules consist of the logic used in the validation rule or you specify your own custom error.
-
-### Utilities
-
-Check validators comes with a number of utilities that can make validating data easier and more flexible. These utilities can be used inside of user-defined validation rules to create more powerful set of validations.
-
-```csharp
-using CheckValidators;
-
-string? data = "Adam Smith";
-
-var c = new Check<string>(data)
-    .IfNull()
-    .IfEmptyOrWhitespace()
-    .IfLengthEquals(10)
-    .IfNot(s => s.Contains("keyword"), "The string does not contain the keyword.");
-```
-
-##### HasErrors()
-
-If you want to determine if any validation errors occured, you could call HasErrors() to give you a boolean value.
-
-##### GetErrors()
-
-You can also retrieve each individual error for your own error handling.
-
-```csharp
-// Getting errors
-if (c.HasErrors())
-{
-    foreach (var s in c.GetErrors())
-    {
-        Console.WriteLine(s);
-    }
-}
-``` 
-
-##### IsValid()
-
-IsValid() returns a boolean value depending on whether all the rules passed validation. If they do, it will return true. If one failed, it will return false. This can be useful for validation scenarios where you don't want to throw an error.
-
-##### ThrowErrors()
-
-ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can use ThrowErrors(true).
-
-```csharp
-// Throwing errors
-if (!c.IsValid())
-{
-    try
-    {
-        c.ThrowErrors(true);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-}
-```
-The expression above, for example, will throw the following errors:
-```console
-Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
-```
-
-##### ReturnErrors()
-
-ReturnErrors() returns the errors as a string that would typically be thrown as an exception. If you want to include the the filename, line number, and parameter you can use ReturnErrors(true).
-
-```csharp
-// Returning errors
-if (!c.IsValid())
-{
-    c.ReturnErrors(true);
-}
-```
-The expression above will produce the following errors:
-```console
-Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
-```
-
 ### User-Defined Validation Rules
 
 User-defined validation rules allow you to use LINQ to validate your data. When writing user-defined validation rules, you typically want to write your own error message. If you don't, the expression that fails will be displayed in the error.
@@ -234,6 +151,85 @@ OrIfNot(user => user.User is null)
 OrIfNot(user => user.User is null, "Custom error message.")
 // Default Error: OrIfNot({expression})
 ```  
+
+### Utilities
+
+Check validators comes with a number of utilities that can make validating data easier and more flexible. These utilities can be used inside of user-defined validation rules to create more powerful set of validations.
+
+##### IsValid()
+
+IsValid() returns a boolean value depending on whether all the rules passed validation. If they do, it will return true. If one failed, it will return false. This can be useful for validation scenarios where you don't want to throw an error.
+
+```csharp
+using CheckValidators;
+
+string? data = "Adam Smith";
+
+var c = new Check<string>(data)
+    .IfNull()
+    .IfEmptyOrWhitespace()
+    .IfLengthEquals(10)
+    .IfNot(s => s.Contains("keyword"), "The string does not contain the keyword.")
+    .IsValid();
+```
+
+##### HasErrors()
+
+If you want to determine if any validation errors occured, you could call HasErrors() to give you a boolean value.
+
+##### GetErrors()
+
+You can also retrieve each individual error for your own error handling.
+
+```csharp
+// Getting errors
+if (c.HasErrors())
+{
+    foreach (var s in c.GetErrors())
+    {
+        Console.WriteLine(s);
+    }
+}
+``` 
+
+##### ReturnErrors()
+
+ReturnErrors() returns the errors as a string that would typically be thrown as an exception. If you want to include the the filename, line number, and parameter you can use ReturnErrors(true).
+
+```csharp
+// Returning errors
+if (!c.IsValid())
+{
+    c.ReturnErrors(true);
+}
+```
+The expression above will produce the following errors:
+```console
+Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
+```
+
+##### ThrowErrors()
+
+ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can use ThrowErrors(true).
+
+```csharp
+// Throwing errors
+if (!c.IsValid())
+{
+    try
+    {
+        c.ThrowErrors(true);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+```
+The expression above, for example, will throw the following errors:
+```console
+Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
+```
 
 ###
 ## Extensibility
