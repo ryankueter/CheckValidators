@@ -236,22 +236,45 @@ public sealed class Check<T> : IDisposable
     {
         if (_messages.Count > 0)
         {
-            var sb = new StringBuilder();
-            for (int i = 0; i < _messages.Count(); i++)
-            {
-                if (i is 0)
-                {
-                    sb.Append($"{i + 1}) {_messages[i]}");
-                    continue;
-                }
-                sb.Append($", {i + 1}) {_messages[i]}");
-            }
-
+            var sb = AppendErrors();
             if (Verbose)
                 throw new ArgumentException($"Errors: {sb.ToString()}, {_caller}.", Type);
             else
                 throw new ArgumentException($"Errors: {sb.ToString()}.");
         }
+    }
+
+    /// <summary>
+    /// Returns the errors as a string
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public string ReturnErrors(bool Verbose = false)
+    {
+        if (_messages.Count > 0)
+        {
+            var sb = AppendErrors();
+            if (Verbose)
+                return $"Errors: {sb.ToString()}, {_caller}.";
+            else
+                return $"Errors: {sb.ToString()}.";
+        }
+        return String.Empty;
+    }
+
+    private StringBuilder AppendErrors()
+    {
+        var sb = new StringBuilder();
+        for (int i = 0; i < _messages.Count(); i++)
+        {
+            if (i is 0)
+            {
+                sb.Append($"{i + 1}) {_messages[i]}");
+                continue;
+            }
+            sb.Append($", {i + 1}) {_messages[i]}");
+        }
+        return sb;
     }
 
     /// <summary>
@@ -268,6 +291,23 @@ public sealed class Check<T> : IDisposable
             else
                 throw new ArgumentException($"Errors: {_messages.First()}.");
         }
+    }
+
+    /// <summary>
+    /// Return only the first error.
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public string ReturnFirstError(bool Verbose = false)
+    {
+        if (_messages.Count > 0)
+        {
+            if (Verbose)
+                return $"Errors: {_messages.First()}, {_caller}.";
+            else
+                return $"Errors: {_messages.First()}.";
+        }
+        return String.Empty;
     }
 
     /// <summary>

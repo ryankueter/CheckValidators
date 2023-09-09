@@ -98,7 +98,7 @@ public static partial class CheckValidatorsExtensions
     public static Check<long?> IfLessThan(this Check<long?> data, long value)
     {
         if (data.InvalidModel()) { return data; }
-        if (data.Value > value)
+        if (data.Value < value)
         {
             data.ThrowError($"The number is less than {value}");
         }
@@ -132,7 +132,7 @@ public static partial class CheckValidatorsExtensions
     public static Check<long?> IfNotEquals(this Check<long?> data, long value)
     {
         if (data.InvalidModel()) { return data; }
-        if (data.Value == value)
+        if (data.Value != value)
         {
             data.ThrowError($"The number should be {value}");
         }

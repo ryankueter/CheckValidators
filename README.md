@@ -51,45 +51,60 @@ One of the more powerful features of this library is the ability to use LINQ to 
 Notice that the following checks are being used inside of user-defined validation rules.
 * Check<string>(request.Email).IfNotEmail()
 * Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime()
-* Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture)
 * Check<string>(request.User).IfNotMatches("^letterstomatch", System.Text.RegularExpressions.RegexOptions.None)
 
 ```csharp
 //Validating a service request
-try
-{
-    var request = new MyServiceRequest();
-    new Check<MyServiceRequest>(request)
-        .IfNull()
-        /*
-         * Check if the email is valid.
-         */
-        .If(request => request.Email == null, "The email address was null!")
-        .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors())
-        /*
-         * Check if the timestamp is valid
-         */
-        .If(request => request.TimeStamp == default, "The timestamp was not set!")
-        .AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(), "An error occured with the timestamp")
-        .If(request => request.Id == 0)
-        .If(request => request.People is null || request.People.Count == 0)
-        .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(), "A person in the list of people did not have a valid email address")
-        .AndIfNot(p => p.People.Where(x => x.Id > 0).Any())
-        .If(request => new Check<string>(request.User).IfEquals("String Comparison Example", StringComparison.InvariantCulture).HasErrors())
-        .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors())
-        .IfNot(request => request.Count > 20 && request.Count < 300)
-        .ThrowErrors(true);
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+var request = new MyServiceRequest();
+var mycheck = new Check<MyServiceRequest>(request)
+.IfNull()
+.If(request => request.Email == null,
+    "The email address was null")
+.AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors(),
+    "The email address was not valid")
+.If(request => request.TimeStamp == default,
+    "The timestamp was not set")
+.AndIf(request => new Check<DateTime>(request.TimeStamp).IfNull().IfDefault().IfNotUtcTime().HasErrors(),
+    "An error occured with the timestamp")
+.If(request => request.Id == 0,
+    "The requested id was 0")
+.If(request => request.People is null || request.People.Count == 0,
+    "No people are in the list of people")
+.AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(),
+    "A person in the list of people did not have a valid email address")
+.AndIfNot(p => p.People.Where(x => x.Id > 0).Any(),
+    "You have an invalid person in your list of people.")
+.If(request => new Check<string>(request.Email).IfEquals("adam@eden.eternal", StringComparison.InvariantCulture).HasErrors(),
+    "The email address was set to 'adam@eden.eternal'")
+.If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors(),
+    "The username does not begin with 'rya'")
+.IfNot(request => request.Count > 20 && request.Count < 300,
+    "The count was not in the specified range");
+
+Console.WriteLine(mycheck.ReturnErrors(true));
 ``` 
 ###
 #### Output:
 
 ```console
-Errors: 1) The email address was null!, 2) The timestamp was not set!, 3) A person in the list of people did not have a valid email address, 4) IfNot(request => request.Count > 20 && request.Count < 300), in Program.cs:line 24. (Parameter 'request <MyServiceRequest>')
+Errors: 1) The email address was null, 2) The timestamp was not set, 3) A person in the list of people did not have a valid email address, 4) The count was not in the specified range, in Program.cs:line 63.
+```
+
+Providing a meaningful error message is always a good idea. But you can also leave off the error and it will include the validation expression as the error:
+
+```csharp
+var request = new MyServiceRequest();
+var mycheck = new Check<MyServiceRequest>(request)
+.IfNull()
+.If(request => request.Email == null);
+
+Console.WriteLine(mycheck.ReturnErrors(true));
+```
+###
+#### Output:
+
+```console
+Errors: 1) If(request => request.Email == null), in Program.cs:line 89.
 ```
 
 ###
@@ -159,6 +174,22 @@ The expression above, for example, will throw the following errors:
 Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
 ```
 
+##### ReturnErrors()
+
+ReturnErrors() returns the errors as a string that would typically be thrown as an exception. If you want to include the the filename, line number, and parameter you can use ReturnErrors(true).
+
+```csharp
+// Returning errors
+if (!c.IsValid())
+{
+    c.ReturnErrors(true);
+}
+```
+The expression above will produce the following errors:
+```console
+Errors: 1) String length should not equal 10 characters, 2) The string does not contain the keyword, in Program.cs:line 5. (Parameter 'data <String>')
+```
+
 ### User-Defined Validation Rules
 
 User-defined validation rules allow you to use LINQ to validate your data. When writing user-defined validation rules, you typically want to write your own error message. If you don't, the expression that fails will be displayed in the error.
@@ -209,6 +240,30 @@ OrIfNot(user => user.User is null, "Custom error message.")
 ### Built-in Validations
 
 Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages.
+
+###
+## Extensibility
+
+You can write your own custom extension methods anywhere in your project to write custom validators that are specific to your needs, similar to the following:
+
+```csharp
+public static partial class CheckValidatorsExtensions
+{
+    public static Check<List<T>?> IfEmpty<T>(this Check<List<T>?> data)
+    {
+        if (data.InvalidModel()) { return data; }
+        try
+        {
+            if (!data.Value.Any())
+            {
+                data.ThrowError("The list is empty.");
+            }
+        }
+        catch { }
+        return data;
+    }
+}
+```
 
 ### General
 
@@ -1058,29 +1113,6 @@ IfNotLoopback()
 // Error: Uri is not the loopback address
 ```
 
-###
-## Extensibility
-
-You can write your own custom extension methods anywhere in your project to write custom validators that are specific to your needs, similar to the following:
-
-```csharp
-public static partial class CheckValidatorsExtensions
-{
-    public static Check<List<T>?> IfEmpty<T>(this Check<List<T>?> data)
-    {
-        if (data.InvalidModel()) { return data; }
-        try
-        {
-            if (!data.Value.Any())
-            {
-                data.ThrowError("The list is empty.");
-            }
-        }
-        catch { }
-        return data;
-    }
-}
-```
 ###
 ## Contributions
 
