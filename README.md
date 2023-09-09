@@ -79,9 +79,8 @@ var mycheck = new Check<MyServiceRequest>(request)
 .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors(),
     "The username does not begin with 'rya'")
 .IfNot(request => request.Count > 20 && request.Count < 300,
-    "The count was not in the specified range");
-
-Console.WriteLine(mycheck.ReturnErrors(true));
+    "The count was not in the specified range")
+.ReturnErrors(true);
 ``` 
 ###
 #### Output:
@@ -96,9 +95,8 @@ Providing a meaningful error message is always a good idea. But you can also lea
 var request = new MyServiceRequest();
 var mycheck = new Check<MyServiceRequest>(request)
 .IfNull()
-.If(request => request.Email == null);
-
-Console.WriteLine(mycheck.ReturnErrors(true));
+.If(request => request.Email == null)
+.ReturnErrors(true);
 ```
 ###
 #### Output:
