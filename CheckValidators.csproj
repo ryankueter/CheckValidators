@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.22</Version>
+		<Version>1.1.23</Version>
 		<Authors>Ryan A. Kueter</Authors>
 		<Company>Ryan A. Kueter</Company>
 		<Description>A flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to hundreds of built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.</Description>
@@ -15,8 +15,8 @@
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
 		<PackageReleaseNotes>Fixed a few issues, added a ReturnErrors method, and fixed documentation.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
-		<AssemblyVersion>1.1.22</AssemblyVersion>
-		<FileVersion>1.1.22</FileVersion>
+		<AssemblyVersion>1.1.23</AssemblyVersion>
+		<FileVersion>1.1.23</FileVersion>
 		<Copyright>Ryan A. Kueter</Copyright>
 		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

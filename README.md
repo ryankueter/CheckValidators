@@ -259,7 +259,7 @@ public static partial class CheckValidatorsExtensions
 }
 ```
 ###  
-### Built-in Validations
+## Built-in Validations
 
 Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages.
 
