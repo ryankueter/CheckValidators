@@ -18,7 +18,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value == default)
         {
-            data.ThrowError($"The dateonly is set to the default value of {data.Value}");
+            data.ThrowError($"The dateonly is set to the default value.");
         }
         return data;
     }
