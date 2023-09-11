@@ -254,7 +254,7 @@ public sealed class Check<T> : IDisposable
         {
             var sb = AppendErrors();
             if (Verbose)
-                return $"Errors: {sb.ToString()}, {_caller}.";
+                return $"Errors: {sb.ToString()}, {_caller}. (Parameter '{Type}')";
             else
                 return $"Errors: {sb.ToString()}.";
         }
@@ -302,7 +302,7 @@ public sealed class Check<T> : IDisposable
         if (_messages.Count > 0)
         {
             if (Verbose)
-                return $"Errors: {_messages.First()}, {_caller}.";
+                return $"Errors: {_messages.First()}, {_caller}. (Parameter '{Type}')";
             else
                 return $"Errors: {_messages.First()}.";
         }
