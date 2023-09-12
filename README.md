@@ -5,7 +5,7 @@ Updated: September, 2023
 
 ## About
 
-**Check Validators** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators), that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to hundreds of built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
+**Check Validators** is a free .NET library available from the [NuGet Package Manager](https://www.nuget.org/packages/CheckValidators) that provides the most flexible, simple, and powerful way to validate and guard your data. It provides a variety of user-defined validators that allow you to use LINQ to validate your data, in addition to hundreds of built-in validators. And it allows you to write your own custom validators and use them in your project without modifying this library.
 
 ### Targets:
 - .NET 6, .NET 7
@@ -86,10 +86,10 @@ var mycheck = new Check<MyServiceRequest>(request)
 #### Output:
 
 ```console
-Errors: 1) The email address was null, 2) The timestamp was not set, 3) A person in the list of people did not have a valid email address, 4) The count was not in the specified range, in Program.cs:line 63.
+Errors: 1) The email address was null, 2) The timestamp was not set, 3) A person in the list of people did not have a valid email address, 4) The count was not in the specified range, in Program.cs:line 63. (Parameter 'request <MyServiceRequest>')
 ```
 
-Providing a meaningful error message is always a good idea. But you can also leave off the error and it will include the validation expression as the error:
+Ideally, you want to provide a meaningful error message. But if you leave off the error, the validation rule will be returned instead:
 
 ```csharp
 var request = new MyServiceRequest();
@@ -102,12 +102,12 @@ var mycheck = new Check<MyServiceRequest>(request)
 #### Output:
 
 ```console
-Errors: 1) If(request => request.Email == null), in Program.cs:line 89.
+Errors: 1) If(request => request.Email == null), in Program.cs:line 100. (Parameter 'request <MyServiceRequest>')
 ```
 
 ### User-Defined Validation Rules
 
-User-defined validation rules allow you to use LINQ to validate your data. When writing user-defined validation rules, you typically want to write your own error message. If you don't, the expression that fails will be displayed in the error.
+User-defined validation rules allow you to use LINQ to validate your data.
 
 ###
 #### If and IfNot
