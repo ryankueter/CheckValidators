@@ -1,7 +1,7 @@
 # Check Validators (.NET)
 
 Author: Ryan Kueter  
-Updated: September, 2023
+Updated: October, 2023
 
 ## About
 
@@ -74,8 +74,8 @@ var mycheck = new Check<MyServiceRequest>(request)
     "A person in the list of people did not have a valid email address")
 .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(),
     "You have an invalid person in your list of people.")
-.If(request => new Check<string>(request.Email).IfEquals("adam@eden.eternal", StringComparison.InvariantCulture).HasErrors(),
-    "The email address was set to 'adam@eden.eternal'")
+.If(request => new Check<string>(request.Email).IfEquals("ryan@email.org", StringComparison.InvariantCulture).HasErrors(),
+    "The email address was set to 'ryan@email.org'")
 .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors(),
     "The username does not begin with 'rya'")
 .IfNot(request => request.Count > 20 && request.Count < 300,
@@ -257,7 +257,7 @@ public static partial class CheckValidatorsExtensions
 ###  
 ## Built-in Validations
 
-Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages.
+Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages. Alternatively, you can provide your own custom error.
 
 ### General
 
@@ -426,6 +426,86 @@ IfEmpty()
 
 IfNotEmpty()
 // Error: The Dictionary is not empty
+
+IfCount(5)
+// Error: The item count should not be {count}
+
+IfNotCount(5)
+// Error: The item count is not {count}
+
+IfCountGreaterThan(5)
+// Error: The item count is greater than {count}
+
+IfCountLessThan(5)
+// Error: The item count is less than {count}
+```
+### IList
+```csharp
+IfEmpty()
+// Error: The list is empty
+
+IfNotEmpty()
+// Error: The list is not empty
+
+IfCount(5)
+// Error: The item count should not be {count}
+
+IfNotCount(5)
+// Error: The item count is not {count}
+
+IfCountGreaterThan(5)
+// Error: The item count is greater than {count}
+
+IfCountLessThan(5)
+// Error: The item count is less than {count}
+```
+### ICollection
+```csharp
+IfEmpty()
+// Error: The list is empty
+
+IfNotEmpty()
+// Error: The list is not empty
+
+IfCount(5)
+// Error: The item count should not be {count}
+
+IfNotCount(5)
+// Error: The item count is not {count}
+
+IfCountGreaterThan(5)
+// Error: The item count is greater than {count}
+
+IfCountLessThan(5)
+// Error: The item count is less than {count}
+```
+### IEnumerable
+```csharp
+IfEmpty()
+// Error: The list is empty
+
+IfNotEmpty()
+// Error: The list is not empty
+
+IfCount(5)
+// Error: The item count should not be {count}
+
+IfNotCount(5)
+// Error: The item count is not {count}
+
+IfCountGreaterThan(5)
+// Error: The item count is greater than {count}
+
+IfCountLessThan(5)
+// Error: The item count is less than {count}
+```
+### IQueryable
+```csharp
+IfEmpty()
+// Error: The list is empty
+
+IfNotEmpty()
+// Error: The list is not empty
 
 IfCount(5)
 // Error: The item count should not be {count}
