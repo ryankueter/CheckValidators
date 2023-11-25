@@ -15,9 +15,9 @@
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
 		<PackageReleaseNotes>Added .NET 8 target.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
-		<Version>1.1.29</Version>
-		<AssemblyVersion>1.1.29</AssemblyVersion>
-		<FileVersion>1.1.29</FileVersion>
+		<Version>1.1.30</Version>
+		<AssemblyVersion>1.1.30</AssemblyVersion>
+		<FileVersion>1.1.30</FileVersion>
 		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>Git</RepositoryType>
