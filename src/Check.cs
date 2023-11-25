@@ -221,10 +221,7 @@ public sealed class Check<T> : IDisposable
     /// Gets the list of errors
     /// </summary>
     /// <returns></returns>
-    public IList<string> GetErrors()
-    {
-        return _messages;
-    }
+    public IList<string> GetErrors() => _messages;
 
     /// <summary>
     /// Throws the errors as an ArgumentException
@@ -325,19 +322,13 @@ public sealed class Check<T> : IDisposable
     /// Get the error cound
     /// </summary>
     /// <returns></returns>
-    public int ErrorCount()
-    {
-        return _messages.Count;
-    }
+    public int ErrorCount() => _messages.Count;
 
     /// <summary>
     /// Check if the conditions are valid
     /// </summary>
     /// <returns></returns>
-    public bool IsValid()
-    {
-        return _isValid;
-    }
+    public bool IsValid() => _isValid;
 
     /// <summary>
     /// Adds an error to the list of errors.
