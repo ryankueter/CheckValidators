@@ -5,6 +5,8 @@
  */
 using System.Text;
 using System.Runtime.CompilerServices;
+using CheckValidators.Options;
+using System.Data.SqlTypes;
 
 namespace CheckValidators;
 
@@ -25,19 +27,18 @@ public sealed class Check<T> : IDisposable
     /// </summary>
     private readonly string _caller;
 
-    public Check(T t, 
+    private bool IsNullCheck(T t) =>
+        t is null ? true : false;
+
+    private bool IsValidCheck(T t) =>
+        t is null ? false : true;
+
+    public Check(T t,
         [CallerArgumentExpression("t")] string expression = "",
         [CallerFilePath] string file = "",
-        [CallerLineNumber] int line = 0)
-    {
-        _isValid = true;
-        _ifValid = true;
-        if (t is null) { IsNull = true; _isValid = false; }
-        Value = t;
-        Type = $"{expression} <{typeof(T).Name}>";
-        _messages = new List<string>();
-        _caller = $"in {Path.GetFileName(file)}:line {line}";
-    }
+        [CallerLineNumber] int line = 0) =>
+        (IsNull, _isValid, _ifValid, Value, Type, _messages, _caller) =
+        (IsNullCheck(t), IsValidCheck(t), true, t, $"{expression} <{typeof(T).Name}>", new List<string>(), $"in {Path.GetFileName(file)}:line {line}");
 
     /// <summary>
     /// Throws an error if the value is null
@@ -228,7 +229,8 @@ public sealed class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowErrors(bool Verbose = false)
+    [Obsolete("For future compatibility, specify the options instead. Example: ThrowErrors(options => { options.IsVerbose = true; })")]
+    public void ThrowErrors(bool Verbose)
     {
         if (_messages.Count > 0)
         {
@@ -241,11 +243,29 @@ public sealed class Check<T> : IDisposable
     }
 
     /// <summary>
+    /// Throws the errors as an ArgumentException
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public void ThrowErrors(Action<IOptionsBuilder>? builder = null)
+    {
+        if (_messages.Count > 0)
+        {
+            var sb = AppendErrors();
+            var options = new OptionsBuilder(sb.ToString(), _caller, Type);
+            if (builder is not null)
+                builder(options);
+            throw options.ThrowErrors();
+        }
+    }
+
+    /// <summary>
     /// Returns the errors as a string
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public string ReturnErrors(bool Verbose = false)
+    [Obsolete("For future compatibility, specify the options instead. Example: ReturnErrors(options => { options.IsVerbose = true; })")]
+    public string ReturnErrors(bool Verbose)
     {
         if (_messages.Count > 0)
         {
@@ -254,6 +274,24 @@ public sealed class Check<T> : IDisposable
                 return $"Errors: {sb.ToString()}, {_caller}. (Parameter '{Type}')";
             else
                 return $"Errors: {sb.ToString()}.";
+        }
+        return String.Empty;
+    }
+
+    /// <summary>
+    /// Returns the errors as a string
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public string ReturnErrors(Action<IOptionsBuilder>? builder = null)
+    {
+        if (_messages.Count > 0)
+        {
+            var sb = AppendErrors();
+            var options = new OptionsBuilder(sb.ToString(), _caller, Type);
+            if (builder is not null)
+                builder(options);
+            return options.ReturnErrors();
         }
         return String.Empty;
     }
@@ -278,7 +316,8 @@ public sealed class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public void ThrowFirstError(bool Verbose = false)
+    [Obsolete("For future compatibility, specify the options instead. Example: ThrowFirstError(options => { options.IsVerbose = true; })")]
+    public void ThrowFirstError(bool Verbose)
     {
         if (_messages.Count > 0)
         {
@@ -290,11 +329,28 @@ public sealed class Check<T> : IDisposable
     }
 
     /// <summary>
+    /// Throw only the first error.
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public void ThrowFirstError(Action<IOptionsBuilder>? builder = null)
+    {
+        if (_messages.Count > 0)
+        {
+            var options = new OptionsBuilder(_messages.First(), _caller, Type);
+            if (builder is not null)
+                builder(options);
+            throw options.ThrowErrors();
+        }
+    }
+
+    /// <summary>
     /// Return only the first error.
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public string ReturnFirstError(bool Verbose = false)
+    [Obsolete("For future compatibility, specify the options instead. Example: ReturnFirstError(options => { options.IsVerbose = true; })")]
+    public string ReturnFirstError(bool Verbose)
     {
         if (_messages.Count > 0)
         {
@@ -302,6 +358,24 @@ public sealed class Check<T> : IDisposable
                 return $"Errors: {_messages.First()}, {_caller}. (Parameter '{Type}')";
             else
                 return $"Errors: {_messages.First()}.";
+        }
+        return String.Empty;
+    }
+
+    /// <summary>
+    /// Return only the first error.
+    /// </summary>
+    /// <param name="Verbose">Include file name, line number, and parameter?</param>
+    /// <exception cref="ArgumentException"></exception>
+    public string ReturnFirstError(Action<IOptionsBuilder>? builder = null)
+    {
+        if (_messages.Count > 0)
+        {
+            var options = new OptionsBuilder(_messages.First(), _caller, Type);
+            if (builder is not null)
+                builder(options);
+
+            return options.ReturnErrors();
         }
         return String.Empty;
     }
@@ -322,13 +396,15 @@ public sealed class Check<T> : IDisposable
     /// Get the error cound
     /// </summary>
     /// <returns></returns>
-    public int ErrorCount() => _messages.Count;
+    public int ErrorCount() => 
+        _messages.Count;
 
     /// <summary>
     /// Check if the conditions are valid
     /// </summary>
     /// <returns></returns>
-    public bool IsValid() => _isValid;
+    public bool IsValid() => 
+        _isValid;
 
     /// <summary>
     /// Adds an error to the list of errors.

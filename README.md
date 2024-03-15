@@ -1,7 +1,7 @@
 # Check Validators (.NET)
 
 Author: Ryan Kueter  
-Updated: November, 2023
+Updated: March, 2024
 
 ## About
 
@@ -20,7 +20,7 @@ try
 {
     DateTime datetime = DateTime.Now;
     new Check<DateTime>(datetime)
-        .IfNull()
+        .IfNull("The date time was null")
         .IfDefault()
         .IfNotUtcTime()
         .IfNot(date => date == DateTime.Now.AddDays(-1), "The date was not yesterday!")
@@ -38,7 +38,7 @@ catch (Exception ex)
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
 ```   
 ###
-Or you can add the filename, line number, and parameter by using ThrowErrors(true):
+Or you can add the filename, line number, and parameter by setting the IsVerbose option to true. For example, ThrowErrors(options => options.IsVerbose = true):
 ```console
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
 ```
@@ -57,7 +57,7 @@ Notice that the following checks are being used inside of user-defined validatio
 //Validating a service request
 var request = new MyServiceRequest();
 var mycheck = new Check<MyServiceRequest>(request)
-.IfNull()
+.IfNull("The service request was null.")
 .If(request => request.Email == null,
     "The email address was null")
 .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors(),
@@ -80,7 +80,7 @@ var mycheck = new Check<MyServiceRequest>(request)
     "The username does not begin with 'rya'")
 .IfNot(request => request.Count > 20 && request.Count < 300,
     "The count was not in the specified range")
-.ReturnErrors(true);
+.ReturnErrors(options => options.IsVerbose = true);
 ``` 
 ###
 #### Output:
@@ -96,7 +96,7 @@ var request = new MyServiceRequest();
 var mycheck = new Check<MyServiceRequest>(request)
 .IfNull()
 .If(request => request.Email == null)
-.ReturnErrors(true);
+.ReturnErrors(options => options.IsVerbose = true);
 ```
 ###
 #### Output:
@@ -194,13 +194,13 @@ if (c.HasErrors())
 
 ##### ReturnErrors()
 
-ReturnErrors() returns the errors as a string that would typically be thrown as an exception. If you want to include the the filename, line number, and parameter you can use ReturnErrors(true).
+ReturnErrors() returns the errors as a string that would typically be thrown as an exception. If you want to include the the filename, line number, and parameter, you can do that by setting the IsVerbose option to true. For example, ReturnErrors(options => options.IsVerbose = true).
 
 ```csharp
 // Returning errors
 if (!c.IsValid())
 {
-    c.ReturnErrors(true);
+    c.ReturnErrors(options => options.IsVerbose = true);
 }
 ```
 The expression above will produce the following errors:
@@ -210,7 +210,7 @@ Errors: 1) String length should not equal 10 characters, 2) The string does not 
 
 ##### ThrowErrors()
 
-ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can use ThrowErrors(true).
+ThrowErrors() will throw all the errors in a formatted error message. If you want to include the the filename, line number, and parameter, you can do that by setting the IsVerbose option to true. For example, ThrowErrors(options => options.IsVerbose = true).
 
 ```csharp
 // Throwing errors
@@ -218,7 +218,7 @@ if (!c.IsValid())
 {
     try
     {
-        c.ThrowErrors(true);
+        c.ThrowErrors(options => options.IsVerbose = true);
     }
     catch (Exception ex)
     {
@@ -255,7 +255,7 @@ public static partial class CheckValidatorsExtensions
 }
 ```
 ###  
-## Built-in Validations
+## Built-in Validators
 
 Check validators also include a large number of built-in validation rules. Each of these rules has their own predefined errors that will provide the parameters you are supplying in the error messages. Alternatively, you can provide your own custom error.
 
@@ -268,6 +268,14 @@ IfNull()
 
 IfNotNull()  
 // Error: The value is not null
+```
+
+Any of the built-in validators will allow you to supply a custom error message. For exmaple:
+
+```csharp
+new Check<string>(password!)
+    .IfNull("The password is null")
+    .ThrowErrors();
 ```
 
 ### String

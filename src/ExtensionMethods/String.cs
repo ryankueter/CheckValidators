@@ -21,7 +21,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length is 0)
         {
-            data.ThrowError("String is empty");
+            data.ThrowError("String is empty", msg);
         }
         return data;
     }
@@ -37,7 +37,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.All(char.IsWhiteSpace))
         {
-            data.ThrowError("String is whitepace");
+            data.ThrowError("String is whitepace", msg);
         }
         return data;
     }
@@ -53,7 +53,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Trim().Length is 0)
         {
-            data.ThrowError("String is empty or whitespace");
+            data.ThrowError("String is empty or whitespace", msg);
         }
         return data;
     }
@@ -75,7 +75,7 @@ public static partial class CheckValidatorsExtensions
 
         if (string.Equals(data.Value, compareString, (StringComparison)compareType))
         {
-            data.ThrowError($"String should not be equal to '{compareString}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should not be equal to '{compareString}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -97,7 +97,7 @@ public static partial class CheckValidatorsExtensions
 
         if (!string.Equals(data.Value, compareString, (StringComparison)compareType))
         {
-            data.ThrowError($"String should be equal to '{compareString}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should be equal to '{compareString}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -113,7 +113,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length > length)
         {
-            data.ThrowError($"String has exceeded the character limit of {length} characters");
+            data.ThrowError($"String has exceeded the character limit of {length} characters", msg);
         }
         return data;
     }
@@ -129,7 +129,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length < length)
         {
-            data.ThrowError($"String does not meet the minimum character length of {length} characters");
+            data.ThrowError($"String does not meet the minimum character length of {length} characters", msg);
         }
         return data;
     }
@@ -145,7 +145,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length == length)
         {
-            data.ThrowError($"String length should not equal {length} characters");
+            data.ThrowError($"String length should not equal {length} characters", msg);
         }
         return data;
     }
@@ -161,7 +161,7 @@ public static partial class CheckValidatorsExtensions
         if (data.InvalidModel()) { return data; }
         if (data.Value.Length != length)
         {
-            data.ThrowError($"String length should equal {length} characters");
+            data.ThrowError($"String length should equal {length} characters", msg);
         }
         return data;
     }
@@ -183,7 +183,7 @@ public static partial class CheckValidatorsExtensions
 
         if (data.Value.EndsWith(ending, (StringComparison)compareType))
         {
-            data.ThrowError($"String should not end with '{ending}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should not end with '{ending}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -205,7 +205,7 @@ public static partial class CheckValidatorsExtensions
 
         if (!data.Value.EndsWith(ending, (StringComparison)compareType))
         {
-            data.ThrowError($"String does not end with '{ending}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String does not end with '{ending}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -227,7 +227,7 @@ public static partial class CheckValidatorsExtensions
 
         if (data.Value.StartsWith(beginning, (StringComparison)compareType))
         {
-            data.ThrowError($"String should not start with '{beginning}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should not start with '{beginning}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -249,7 +249,7 @@ public static partial class CheckValidatorsExtensions
 
         if (!data.Value.StartsWith(beginning, (StringComparison)compareType))
         {
-            data.ThrowError($"String does not start with '{beginning}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String does not start with '{beginning}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -271,7 +271,7 @@ public static partial class CheckValidatorsExtensions
 
         if (data.Value.Contains(compare, (StringComparison)compareType))
         {
-            data.ThrowError($"String should not contain '{compare}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should not contain '{compare}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -293,7 +293,7 @@ public static partial class CheckValidatorsExtensions
 
         if (!data.Value.Contains(compare, (StringComparison)compareType))
         {
-            data.ThrowError($"String should contain '{compare}' [StringComparison: '{compareType}']");
+            data.ThrowError($"String should contain '{compare}' [StringComparison: '{compareType}']", msg);
         }
         return data;
     }
@@ -316,7 +316,7 @@ public static partial class CheckValidatorsExtensions
         var match = new Regex(pattern, (RegexOptions)options);
         if (match.IsMatch(data.Value))
         {
-            data.ThrowError($"String should not match the regular expressions pattern '{pattern}'");
+            data.ThrowError($"String should not match the regular expressions pattern '{pattern}'", msg);
         }
         return data;
     }
@@ -339,7 +339,7 @@ public static partial class CheckValidatorsExtensions
         var match = new Regex(pattern, (RegexOptions)options);
         if (!match.IsMatch(data.Value))
         {
-            data.ThrowError($"String should match the regular expressions pattern '{pattern}'");
+            data.ThrowError($"String should match the regular expressions pattern '{pattern}'", msg);
         }
         return data;
     }
@@ -356,7 +356,7 @@ public static partial class CheckValidatorsExtensions
         DateTime d;
         if (!DateTime.TryParse(data.Value, out d))
         {
-            data.ThrowError($"String {data.Value} is not a date");
+            data.ThrowError($"String {data.Value} is not a date", msg);
         }
         return data;
     }
@@ -373,7 +373,7 @@ public static partial class CheckValidatorsExtensions
         Int16 i;
         if (!Int16.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not an Int16");
+            data.ThrowError($"String {data.Value} is not an Int16", msg);
         }
         return data;
     }
@@ -390,7 +390,7 @@ public static partial class CheckValidatorsExtensions
         int i;
         if (!Int32.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not an integer");
+            data.ThrowError($"String {data.Value} is not an integer", msg);
         }
         return data;
     }
@@ -407,7 +407,7 @@ public static partial class CheckValidatorsExtensions
         Int64 i;
         if (!Int64.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not an Int64");
+            data.ThrowError($"String {data.Value} is not an Int64", msg);
         }
         return data;
     }
@@ -424,7 +424,7 @@ public static partial class CheckValidatorsExtensions
         TimeOnly i;
         if (!TimeOnly.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not a TimeOnly");
+            data.ThrowError($"String {data.Value} is not a TimeOnly", msg);
         }
         return data;
     }
@@ -441,7 +441,7 @@ public static partial class CheckValidatorsExtensions
         DateOnly i;
         if (!DateOnly.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not a DateOnly");
+            data.ThrowError($"String {data.Value} is not a DateOnly", msg);
         }
         return data;
     }
@@ -458,7 +458,7 @@ public static partial class CheckValidatorsExtensions
         double i;
         if (!Double.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not a double");
+            data.ThrowError($"String {data.Value} is not a double", msg);
         }
         return data;
     }
@@ -475,7 +475,7 @@ public static partial class CheckValidatorsExtensions
         float i;
         if (!float.TryParse(data.Value, out i))
         {
-            data.ThrowError($"String {data.Value} is not a float");
+            data.ThrowError($"String {data.Value} is not a float", msg);
         }
         return data;
     }
@@ -502,7 +502,7 @@ public static partial class CheckValidatorsExtensions
         var match = new Regex(pattern, (RegexOptions)options);
         if (!match.IsMatch(data.Value))
         {
-            data.ThrowError($"String '{data.Value}' is not an email address");
+            data.ThrowError($"String '{data.Value}' is not an email address", msg);
         }
         return data;
     }
@@ -529,7 +529,7 @@ public static partial class CheckValidatorsExtensions
         var match = new Regex(pattern, (RegexOptions)options);
         if (!match.IsMatch(data.Value))
         {
-            data.ThrowError($"String {data.Value} is not a URL");
+            data.ThrowError($"String {data.Value} is not a URL", msg);
         }
         return data;
     }
