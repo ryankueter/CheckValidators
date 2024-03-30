@@ -251,8 +251,7 @@ public sealed class Check<T> : IDisposable
     {
         if (_messages.Count > 0)
         {
-            var sb = AppendErrors();
-            var options = new OptionsBuilder(sb.ToString(), _caller, Type);
+            var options = new OptionsBuilder(_messages, _caller, Type);
             if (builder is not null)
                 builder(options);
             throw options.ThrowErrors();
@@ -283,17 +282,16 @@ public sealed class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public string ReturnErrors(Action<IOptionsBuilder>? builder = null)
+    public string? ReturnErrors(Action<IOptionsBuilder>? builder = null)
     {
         if (_messages.Count > 0)
         {
-            var sb = AppendErrors();
-            var options = new OptionsBuilder(sb.ToString(), _caller, Type);
+            var options = new OptionsBuilder(_messages, _caller, Type);
             if (builder is not null)
                 builder(options);
             return options.ReturnErrors();
         }
-        return String.Empty;
+        return null;
     }
 
     private StringBuilder AppendErrors()
@@ -337,10 +335,10 @@ public sealed class Check<T> : IDisposable
     {
         if (_messages.Count > 0)
         {
-            var options = new OptionsBuilder(_messages.First(), _caller, Type);
+            var options = new OptionsBuilder(_messages, _caller, Type);
             if (builder is not null)
                 builder(options);
-            throw options.ThrowErrors();
+            throw options.ThrowFirstError();
         }
     }
 
@@ -367,17 +365,17 @@ public sealed class Check<T> : IDisposable
     /// </summary>
     /// <param name="Verbose">Include file name, line number, and parameter?</param>
     /// <exception cref="ArgumentException"></exception>
-    public string ReturnFirstError(Action<IOptionsBuilder>? builder = null)
+    public string? ReturnFirstError(Action<IOptionsBuilder>? builder = null)
     {
         if (_messages.Count > 0)
         {
-            var options = new OptionsBuilder(_messages.First(), _caller, Type);
+            var options = new OptionsBuilder(_messages, _caller, Type);
             if (builder is not null)
                 builder(options);
 
-            return options.ReturnErrors();
+            return options.ReturnFirstError();
         }
-        return String.Empty;
+        return null;
     }
 
     /// <summary>

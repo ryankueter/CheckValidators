@@ -38,9 +38,32 @@ catch (Exception ex)
 Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!.
 ```   
 ###
-Or you can add the filename, line number, and parameter by setting the IsVerbose option to true. For example, ThrowErrors(options => options.IsVerbose = true):
+### Options:
+Check validators also provides a couple of formatting options. The first is the ability to add the filename, line number, and parameter by setting the IsVerbose option to true. And the second is the ability to change the StartText. The following example demonstrates how to do each:
+```csharp
+// Validating a date
+try
+{
+    DateTime datetime = DateTime.Now;
+    new Check<DateTime>(datetime)
+        .IfNull("The date time was null")
+        .IfDefault()
+        .IfNotUtcTime()
+        .IfNot(date => date == DateTime.Now.AddDays(-1), "The date was not yesterday!")
+        .ThrowErrors(options =>
+        {
+            options.IsVerbose = true;
+            options.StartText = "Fix: ";
+        });
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+``` 
+###
 ```console
-Errors: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 48. (Parameter 'datetime <DateTime>')
+Fix: 1) The datetime format is not Utc, 2) The date was not yesterday!, in Program.cs:line 11. (Parameter 'datetime <DateTime>')
 ```
 ###
 #### A Realistic Example
@@ -57,7 +80,7 @@ Notice that the following checks are being used inside of user-defined validatio
 //Validating a service request
 var request = new MyServiceRequest();
 var mycheck = new Check<MyServiceRequest>(request)
-.IfNull("The service request was null.")
+.IfNull("The service request was null")
 .If(request => request.Email == null,
     "The email address was null")
 .AndIf(request => new Check<string>(request.Email).IfNotEmail().HasErrors(),
@@ -73,7 +96,7 @@ var mycheck = new Check<MyServiceRequest>(request)
 .AndIf(request => request.People.Where(person => new Check<string>(person.Email).IfNull().IfNotEmail().HasErrors()).Any(),
     "A person in the list of people did not have a valid email address")
 .AndIfNot(p => p.People.Where(x => x.Id > 0).Any(),
-    "You have an invalid person in your list of people.")
+    "You have an invalid person in your list of people")
 .If(request => new Check<string>(request.Email).IfEquals("ryan@email.org", StringComparison.InvariantCulture).HasErrors(),
     "The email address was set to 'ryan@email.org'")
 .If(request => new Check<string>(request.User).IfNotMatches("^rya", System.Text.RegularExpressions.RegexOptions.IgnoreCase).HasErrors(),
