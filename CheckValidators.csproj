@@ -13,7 +13,7 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>Added more extendable configuration options.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added and option to change the start text. Breaking changes: ReturnError methods return null instead of empty string when no errors are detected.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
 		<Version>1.1.32</Version>
 		<AssemblyVersion>1.1.32</AssemblyVersion>
