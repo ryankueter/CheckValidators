@@ -34,11 +34,11 @@ public class OptionsBuilder : IOptionsBuilder
             $"{GetStartText()}{GetErrors()}.";
 
     public ArgumentException ThrowFirstError() =>
-    IsVerbose ?
+        IsVerbose ?
             new ArgumentException($"{GetStartText()}{_messages!.First()}, {_caller}.", _type) :
             new ArgumentException($"{GetStartText()}{_messages!.First()}.");
     public string ReturnFirstError() =>
-    IsVerbose ?
+        IsVerbose ?
             $"{GetStartText()}{_messages!.First()}, {_caller}. (Parameter '{_type}')" :
             $"{GetStartText()}{_messages!.First()}.";
 
