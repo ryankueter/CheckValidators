@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
@@ -13,11 +13,11 @@
 		<PackageIcon>Icon.jpg</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/ryankueter/CheckValidators</RepositoryUrl>
-		<PackageReleaseNotes>Added and option to change the start text. Breaking changes: ReturnError methods return null instead of empty string when no errors are detected.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added a .NET 9 target.</PackageReleaseNotes>
 		<PackageTags>C#;Validations;Guards</PackageTags>
-		<Version>1.1.32</Version>
-		<AssemblyVersion>1.1.32</AssemblyVersion>
-		<FileVersion>1.1.32</FileVersion>
+		<Version>1.1.33</Version>
+		<AssemblyVersion>1.1.33</AssemblyVersion>
+		<FileVersion>1.1.33</FileVersion>
 		<PackageProjectUrl>https://github.com/ryankueter/CheckValidators</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>Git</RepositoryType>
